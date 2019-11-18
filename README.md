@@ -1,5 +1,5 @@
 # Codon-Usage-in-Python
-Python3  implementation of popular codon usage metrics or manipulating output files from popular codon usage tools like CodonW. I work with hundreds of species in parallel so these scripts to handle batch processing of multiple files. To ensure accuracy of expected output,  these results of the code were benchmarked against established tools.
+Python3  implementation of popular codon usage metrics or manipulating output files from popular codon usage tools like CodonW (John Peden). I work with hundreds of species in parallel so these scripts to handle batch processing of multiple files. To ensure accuracy of expected output,  the results of the code were benchmarked against established tools.
 
 # Terms
 ## Codon Usage Bias
