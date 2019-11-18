@@ -101,6 +101,6 @@ for species in names:  #names is a list of filenames of fasta files
     df_rscu = get_cod_freq(seqs)  ##computes absolute codon frequencies
     rscu = compute_rscu_weights(df_rscu)  ##computes RSCU and adaptive weights
 ##saves final table with RSCU, adaptive weights and codon frequencies	
-    rscu.to_csv('../RSCU_genomes/{}_rscu.csv'.format(species),index=False, sep=',')
+    rscu.to_csv(path_to_save_file.format(species),index=False, sep=',') #path is a string
 	
 
