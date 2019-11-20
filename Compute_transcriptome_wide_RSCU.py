@@ -1,5 +1,5 @@
 ##Author: Rhondene Wint
-##Compute the 59 relative synonymous codon usage (RSCU) from a fasta file or list of fasta file
+##Compute the 59 relative synonymous codon usage (RSCU) from a set of coding sequences in a fasta file or list of fasta files
 ## I wrote this because the present codon usage tools could not handle multiple files or
 ## the output was in the form of standard codon usage table that needs extra parsing
 
@@ -54,19 +54,20 @@ def get_cod_freq(seqs):
     """ seqs: list of sequences of each Coding sequence """
     
     codon_count=dict() 
-    
+    ##omit codons from 1-fold amino acids (Met and Tryp), and stop codons
     for codon in list(codon_aa_2.keys()):
-        if codon not in ['AUG', "UAA","UAG", "UGA", "UGG" ]:
+        if codon not in ['AUG', "UAA","UAG", "UGA", "UGG" ]:  ## edit here if you can want to compare differential stop codon usage
             codon_count[codon]=0
-    ##count codons 59 codons in each sequence, 
+    
+##count codons 59 codons in each sequence, 
     for cds in seqs:
         cds = cds.upper().replace('T','U')
         codons = []
-        ##make a list of codons
+        ##make a list of codons, ignore low-quality sequences - unknown base 'N' and sequences not multiple of 3
         for c in range(0,len(cds),3):
             if len(cds)%3 ==0:
                 cod=cds[c:c+3]
-                if 'N' not in cod:  ##ignore N and seqs not multiple of 3
+                if 'N' not in cod:  
                     codons.append(cod)
             else:
                 continue
@@ -74,33 +75,33 @@ def get_cod_freq(seqs):
         for c in list(codon_count.keys()):
             codon_count[c]+= codons.count(c)
     
-    df_rscu=pd.DataFrame(list(codon_count.items()) )
-    df_rscu.columns=['Codon', 'Observed_Freq']
-    df_rscu['Amino_Acid'] = [codon_aa_2[codon] for codon in df_rscu['Codon'].values]
+    df_codcnt=pd.DataFrame(list(codon_count.items()) )
+    df_codcnt.columns=['Codon', 'Observed_Freq']
+    df_codcnt['Amino_Acid'] = [codon_aa_2[codon] for codon in df_rscu['Codon'].values]
     
-    return df_rscu	## with absolute codon frequencies
+    return df_codcnt	## with absolute codon frequencies
 
 ## computes RSCU
-def compute_rscu_weights(df_rscu):
+def compute_rscu_weights(df_codcnt):
     """ wij = RSCUij/ RSCU i,max"""
     aa_groups = df_rscu.groupby('Amino_Acid')
-    aa =  df_rscu['Amino_Acid'].unique()  #make a list of all amino acids to iterate over
+    aa =  df_codcnt['Amino_Acid'].unique()  #make a list of all amino acids to iterate over
     df_list = []
     for a in aa:
         d=aa_groups.get_group(a)
         d['RSCU'] = d['Obs_Freq'].values/d['Obs_Freq'].mean() #obs/expected freq 
         d['Relative_Adaptive_Weights'] = d['RSCU'].values/d['RSCU'].max() 
-        d['optimal'] = [True if rscu==d['RSCU'].max() else False for rscu in d['RSCU'].values] #marks optimal codon
+        d['optimal'] = [True if rscu==d['RSCU'].max() else False for rscu in d['RSCU'].values] #max RSCU is optimal codon for an amino acid
         #d['Species'] = species
         df_list.append(d)
     return pd.concat(df_list)
 	
 
-for species in names:  #names is a list of filenames of fasta files
+for species in names:  #'names' is a list of filenames of fasta files, I name my files by their abbreviated species name
     seqs = get_seqs(species)  ##formats fasta into list of sequences
-    df_rscu = get_cod_freq(seqs)  ##computes absolute codon frequencies
-    rscu = compute_rscu_weights(df_rscu)  ##computes RSCU and adaptive weights
-##saves final table with RSCU, adaptive weights and codon frequencies	
+    df_codcnt = get_cod_freq(seqs)  ##computes absolute codon frequencies
+    rscu = compute_rscu_weights(df_codcnt)  ##computes RSCU and adaptive weights
+##saves final table with RSCU, adaptive weights and absolute codon frequencies	
     rscu.to_csv(path_to_save_file.format(species),index=False, sep=',') #path is a string
 	
 
