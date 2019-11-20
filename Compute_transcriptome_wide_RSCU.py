@@ -3,7 +3,8 @@
 ## I wrote this because the present codon usage tools could not handle multiple files or
 ## the output was in the form of standard codon usage table that needs extra parsing
 
-
+import pandas as pd
+import numpy as np
 
 # map codons to amino acids
 ## break up 6-codon family into 2 and 4 fold subsets(Ser (S), L(Leu), R (Arg))
