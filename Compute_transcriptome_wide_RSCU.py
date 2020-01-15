@@ -6,8 +6,9 @@
 import pandas as pd
 import numpy as np
 
-# map codons to amino acids
-## break up 6-codon family into 2 and 4 fold subsets(Ser (S), L(Leu), R (Arg))
+# map codons to amino acids based on standard genetic code
+## break up 6-codon family into 2 and 4 fold subsets(Ser (S), L(Leu), R (Arg)). 
+#You can edit dictionary to account for species-specfiic codon re-assignment
 
 codon_aa_2 = {
            
@@ -96,7 +97,8 @@ def compute_rscu_weights(df_codcnt):
         #d['Species'] = species
         df_list.append(d)
     return pd.concat(df_list)
-	
+
+##iterate over filenames to compute RSCU of each species 
 
 for species in names:  #'names' is a list of filenames of fasta files, I name my files by their abbreviated species name
     seqs = get_seqs(species)  ##formats fasta into list of sequences
