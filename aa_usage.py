@@ -5,7 +5,6 @@ import pandas as pd
 import numpy as np
 
 
-
 def get_seqs(species):
 	"""species: path of fasta file of the species 
 		parse fasta file into a list of coding sequences
@@ -90,7 +89,14 @@ def compute_rscu_weights(df_count):
         df_list.append(d)
     return pd.concat(df_list)
 	
-	
+## save codon usage tables 
+for species in names:  #names is a list of filenames of fasta files
+    seqs = get_seqs(species)  ##formats fasta into list of sequences
+    df_rscu = get_cod_freq(seqs)  ##computes absolute codon frequencies
+    rscu = compute_rscu_weights(df_rscu)  ##computes RSCU and adaptive weights
+##saves final table with RSCU, adaptive weights and codon frequencies,
+    rscu.to_csv('../RSCU_genomes/{}_all_codons_rscu.csv'.format(species),index=False, sep=',')
+
 	
 ###### then compute AA usage from codon usage table######
 base_freq = {'U' :0.220, "A":0.303, 'C':0.217, 'G':0.261}  ##natural frequency in nature
@@ -104,7 +110,7 @@ def no_six(aa):
 
 #genomes is a list of file names with the RSCU codon usage tables
 for species in genomes:
-    df_rscu=pd.read_table('../RSCU_genomes_all_codons/{}_rscu.csv'.format(species),sep=',')
+    df_rscu=pd.read_table('../RSCU_genomes_all_codons/{}_all_codons_rscu.csv'.format(species),sep=',')
     df_rscu=df_rscu[df_rscu['Amino_Acid']!='STOP']
     df_rscu['AA_no_six'] = df_rscu['Amino_Acid'].apply(no_six) #comment out if you choose not to
     AA =  df_rscu['AA_no_six'].unique()
