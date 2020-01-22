@@ -6,9 +6,10 @@ import numpy as np
 
 
 def get_seqs(species):
-	"""species: path of fasta file of the species 
-		parse fasta file into a list of coding sequences
-		Returns: list of each coding sequences """
+    """species: path of fasta file of the species 
+    parse fasta file into a list of coding sequences
+    Returns: list of each coding sequences
+   """
     seqs = []
     with open(species, 'r') as f:
         for line in f:
@@ -17,7 +18,7 @@ def get_seqs(species):
     return seqs
 
 ## dictionary that maps codons to amino acids
- """break up 6-codon family into 2 and 4 fold (Ser (S), L(Leu), R (Arg))"""
+"""break up 6-codon family into 2 and 4 fold (Ser (S), L(Leu), R (Arg))"""
 codon_to_aa = {
     "UUU":"Phe", "UUC":"Phe",         
     "UCU":"Ser4", "UCC":"Ser4", "UCA":"Ser4", "UCG":"Ser4",
@@ -73,7 +74,7 @@ def get_cod_freq(seqs):
     
     return df_codcount
 
-def compute_rscu_weights(df_count):
+def compute_rscu_weights(df_codcount):
     """ Caclculates Relative Synonymous codon usage (RSCU) wij = RSCUij/ RSCU i,max
     Input: 59-dim codon count dataframe
     Returns: 59-dim dataframe of RSCU values for each codon """
