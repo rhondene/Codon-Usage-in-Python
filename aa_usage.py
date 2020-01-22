@@ -5,27 +5,53 @@ import pandas as pd
 import numpy as np
 
 
-### transcriptome-wide-rscu  for all including stop codons and 1-fold, pretty fast
 
 def get_seqs(species):
-	"""species: filepath
-		parse fasta file into a list
+	"""species: path of fasta file of the species 
+		parse fasta file into a list of coding sequences
 		Returns: list of each coding sequences """
     seqs = []
-    with open('../Transcripts_fixed/{}.fasta'.format(species), 'r') as f:
+    with open(species, 'r') as f:
         for line in f:
             if line.startswith('>') is False:
                 seqs.append(line.rstrip())
     return seqs
 
+## dictionary that maps codons to amino acids
+ """break up 6-codon family into 2 and 4 fold (Ser (S), L(Leu), R (Arg))"""
+codon_to_aa = {
+    "UUU":"Phe", "UUC":"Phe",         
+    "UCU":"Ser4", "UCC":"Ser4", "UCA":"Ser4", "UCG":"Ser4",
+    "AGU":"Ser2", "AGC":"Ser2",
+    "CUU":"Leu4", "CUC":"Leu4", "CUA":"Leu4", "CUG":"Leu4",
+    "UUA":"Leu2", "UUG":"Leu2",
+    
+    "UAU":"Tyr", "UAC":"Tyr", "UAA":"STOP", "UAG":"STOP",
+    "UGU":"Cys", "UGC":"Cys", "UGA":"STOP", "UGG":"Trp",
+    "CGU":"Arg4", "CGC":"Arg4", "CGA":"Arg4", "CGG":"Arg4",
+    "AGA":"Arg2", "AGG":"Arg2",
+    "CCU":"Pro", "CCC":"Pro", "CCA":"Pro", "CCG":"Pro",
+    "CAU":"His", "CAC":"His", "CAA":"Gln", "CAG":"Gln",
+    
+    "AUU":"Ile", "AUC":"Ile", "AUA":"Ile", "AUG":"Met",
+    "ACU":"Thr", "ACC":"Thr", "ACA":"Thr", "ACG":"Thr",
+    "AAU":"Asn", "AAC":"Asn", "AAA":"Lys", "AAG":"Lys",
+   
+    "GUU":"Val", "GUC":"Val", "GUA":"Val", "GUG":"Val",
+    "GCU":"Ala", "GCC":"Ala", "GCA":"Ala", "GCG":"Ala",
+    "GAU":"Asp", "GAC":"Asp", "GAA":"Glu", "GAG":"Glu",
+    "GGU":"Gly", "GGC":"Gly", "GGA":"Gly", "GGG":"Gly"}
+
 
 def get_cod_freq(seqs):
-    """ seqs: list of sequences of each CDS"""
+    """ seqs: list of CDS
+    	Returns a 59-dim dataframe of total absolute codon frequencies
+    """
     
     codon_count=dict() 
-## assign zero
-    for codon in list(codon_aa_3.keys()):
-        codon_count[codon]=0
+
+    for codon in list(codon_to_aa.keys()):
+        codon_count[codon]=0  ##dictionary to accumulate codon count
         
     for cds in seqs:
         cds = cds.upper().replace('T','U')
@@ -42,16 +68,18 @@ def get_cod_freq(seqs):
         for c in list(codon_count.keys()):
             codon_count[c]+= codons.count(c)
     
-    df_rscu=pd.DataFrame(list(codon_count.items()) )
-    df_rscu.columns=['Codon', 'Obs_Freq']
-    df_rscu['Amino_Acid'] = [codon_aa_3[codon] for codon in df_rscu['Codon'].values]
+    df_codcount=pd.DataFrame(list(codon_count.items()) )
+    df_codcount.columns=['Codon', 'Obs_Freq']
+    df_codcount['Amino_Acid'] = [codon_to_aa[codon] for codon in df_codcount['Codon'].values] ## add amino acid column
     
-    return df_rscu
+    return df_codcount
 
-def compute_rscu_weights(df_rscu):
-    """ wij = RSCUij/ RSCU i,max"""
-    aa_groups = df_rscu.groupby('Amino_Acid')
-    aa =  df_rscu['Amino_Acid'].unique()  #make a list of all amino acids to iterate over
+def compute_rscu_weights(df_count):
+    """ Caclculates Relative Synonymous codon usage (RSCU) wij = RSCUij/ RSCU i,max
+    Input: 59-dim codon count dataframe
+    Returns: 59-dim dataframe of RSCU values for each codon """
+    aa_groups = df_codcount.groupby('Amino_Acid')
+    aa =  df_codcount['Amino_Acid'].unique()  #make a list of all amino acids to iterate over
     df_list = []
     for a in aa:
         d=aa_groups.get_group(a)
@@ -64,21 +92,21 @@ def compute_rscu_weights(df_rscu):
 	
 	
 	
-### then compute AA usage######
+###### then compute AA usage from codon usage table######
 base_freq = {'U' :0.220, "A":0.303, 'C':0.217, 'G':0.261}  ##natural frequency in nature
 
-## to consolidate all codons of 6-box amino acids
+## to consolidate all codons of 6-box amino acids; you may or may not want to do this
 def no_six(aa):
     return aa[:3]
 	
 	
 ##very fast , 460 genomes under 30 seconds
 
-
+#genomes is a list of file names with the RSCU codon usage tables
 for species in genomes:
     df_rscu=pd.read_table('../RSCU_genomes_all_codons/{}_rscu.csv'.format(species),sep=',')
     df_rscu=df_rscu[df_rscu['Amino_Acid']!='STOP']
-    df_rscu['AA_no_six'] = df_rscu['Amino_Acid'].apply(no_six)
+    df_rscu['AA_no_six'] = df_rscu['Amino_Acid'].apply(no_six) #comment out if you choose not to
     AA =  df_rscu['AA_no_six'].unique()
     AA_group = df_rscu.groupby('AA_no_six')
     aa_usage = dict()
