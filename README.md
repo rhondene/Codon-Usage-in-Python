@@ -1,5 +1,5 @@
 # Codon-Usage-in-Python
-Python3  implementation of popular codon usage metrics for manipulating genomic files (.fasta) and output files from  CodonW (John Peden). I work with hundreds of species in parallel so these scripts to handle batch processing of multiple files - a task that was difficult to accomplish with previously published tools. I will update with more code once I finish the manuscript that I am using these algorithms i.
+Python3  implementation of popular codon usage metrics for manipulating genomic files (.fasta).  I work with hundreds of species in parallel so these scripts to handle batch processing of multiple files - a task that was difficult to accomplish with previously published tools. I will update with more code once I finish the manuscript that I am using these algorithms i.
 
 # Terms
 ## Codon Usage Bias
