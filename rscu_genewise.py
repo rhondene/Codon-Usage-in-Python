@@ -111,7 +111,7 @@ if __name__=='__main__':
     msg = """Welcome to PyRSCU! All rights reserved @2020. \n To send your questions and suggestions, you may make a pull request at github OR  email rwint@ucmerced.edu with your questions and suggestions"""
 
     parser = argparse.ArgumentParser(description="Computes the relative synonymous codon usage (RSCU) for each coding sequence. Written by Rhondene Wint (rwint@ucmerced.edu).")
-    parser.add_argument('fast 
+    parser.add_argument('fasta') 
     seq_df = pd.read_csv(sys.argv[1],sep=',' )
     print(seq_df.columns)
 
