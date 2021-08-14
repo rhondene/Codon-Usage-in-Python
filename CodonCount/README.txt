@@ -7,6 +7,6 @@ Purpose: Computes the proportional codon usage of each 61 sense codons of a codi
 How to Use :
 1. Ensure that python3 (version 3.5 or higher) is installed. 
 	Recommended to install python via anaconda https://docs.anaconda.com/anaconda/install/index.html
-2. download the CodonCount.zip file this github repo into your working folder. Then Unzip the CodonCount.zip folder. 
+2. download the CodonCount.zip file in this github repo into your working folder. Then Unzip the CodonCount.zip folder. 
 3. Open a terminal window (bash, gitbash, powershell, etc) in the same working folder
 4. Run the command: 'python CodonCount --help'  for how to add arguments.
