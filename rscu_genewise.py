@@ -60,21 +60,25 @@ def get_cod_freq(gene):
     ##count codons 59 codons in each sequence, 
     codons = []
     
-    ##make a list of codons
-    for c in range(0,len(cds),3):
+   ##count codons in cds
+    codons = []
+    for c in range(0,len(cds),3):   #O(len cds)
         cod=cds[c:c+3]
-        if 'N' not in cod:  ##ignore N
-            codons.append(cod)
-        else:
+        try:
+            codon_count[cod]+=1
+        except KeyError:
             continue
-    for c in list(codon_count.keys()):
-        codon_count[c]+= codons.count(c)
+        
+    #store the fractional freq of each codon in the codon dictionary
+    total_cod=len(cds)/3 #total number of codons in the cds
+    for c in list(codon_count.keys()):    #O(len codondict)
+        codon_count[c]/=total_cod
     
     df_codcnt=pd.DataFrame(list(codon_count.items()) )
     df_codcnt.columns=['Codon', 'Obs_Freq']
     df_codcnt['Amino_acid'] = [codon_aa[codon] for codon in df_codcnt['Codon'].values]
     df_codcnt['Length']= len(cds)
-    df_codcnt['FBtr']= ID
+    df_codcnt['GeneID']= ID
     return df_codcnt
 	
 #compute relative usagae from codon frequency
@@ -108,13 +112,12 @@ cols2= ['Phe-UUU', 'Phe-UUC', 'Ser4-UCU', 'Ser4-UCC', 'Ser4-UCA',
 if __name__=='__main__':
 
     #print a welcome message with my contacts
-    msg = """Welcome to PyRSCU! All rights reserved @2020. \n To send your questions and suggestions, you may make a pull request at github OR  email rwint@ucmerced.edu with your questions and suggestions"""
+    msg = """Welcome to PyRSCU! All rights reserved @2020. \n To send your questions and suggestions, you may make a pull request at github OR email rwint@ucmerced.edu """
 
     parser = argparse.ArgumentParser(description="Computes the relative synonymous codon usage (RSCU) for each coding sequence. Written by Rhondene Wint (rwint@ucmerced.edu).")
-    parser.add_argument('fasta') 
-    seq_df = pd.read_csv(sys.argv[1],sep=',' )
+    parser.add_argument('fasta', help='Name or path of of input fasta file.')
+    seq_df = pd.read_csv(,sep=',' )
     print(seq_df.columns)
-
     df_list =[]
     #iterate over each CDS/gene in table
 
@@ -129,7 +132,7 @@ if __name__=='__main__':
         df_list.append(rscu) ## append RSCU matrix of each gene
 
     ##collect and stack rscu matrices for cds 
-    omit = ['Obs_Freq','Amino_acid','Length','Relative_Adaptive_Weights', 'FBtr']
+    omit = ['Obs_Freq','Amino_acid','Length','Relative_Adaptive_Weights', 'GeneID']
     comb = []
     for rscu in df_list:  #rname rscu_list
         r3 = rscu.set_index('Codon').drop(omit, axis=1).T
@@ -137,10 +140,9 @@ if __name__=='__main__':
         r3.columns=cols2  ##codon with amino acid
         
             ##add a gene information column
-        r3['FBtr']= rscu['FBtr'].values[0]
+        r3['GeneID']= rscu['GeneID'].values[0]
         r3['Length']=rscu['Length'].values[0]; 
       
         comb.append(r3)
 
-    output = sys.argv[2]
     pd.concat(comb,axis=0).reset_index(drop=True).to_csv(output+'_rscu.csv',index=False)
