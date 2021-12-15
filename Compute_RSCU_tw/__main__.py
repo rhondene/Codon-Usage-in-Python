@@ -99,7 +99,7 @@ if __name__=='__main__':
 	epi_note = 'To contact the author about problems or errors,make a pull request at https://github.com/rhondene/Codon-Usage-in-Python'
 	parser = argparse.ArgumentParser(description=about,epilog=epi_note)
 	parser.add_argument('-CDS', help='Path to fasta file with species coding sequences', type=str, required=True, metavar='')
-	parser.add_argument('-out', help='Path of destination folder for output file', type=str, default='./file_out.rscu', metavar='')	
+	parser.add_argument('-out', help='Path of destination folder for output file (text file)', type=str, default='./file_out.rscu', metavar='')	
 
 	args=parser.parse_args()
 
@@ -109,7 +109,7 @@ if __name__=='__main__':
 	rscu = compute_rscu_weights(df_codcount)  ##computes RSCU and adaptive weights
 
 	#save the file
-	rscu.to_csv('{}'.format(args.out), index=False)
+	rscu.to_csv('{}.rscu'.format(args.out), index=False)
 
    
                       
