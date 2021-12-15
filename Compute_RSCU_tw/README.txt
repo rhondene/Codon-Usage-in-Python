@@ -1,6 +1,6 @@
 #Author: Rhondene Wint (rwint@ucmerced.edu)
 
-Purpose: Computes relative synonymous codon usage of each 61 sense codons over the set of coding sequnces (CDS)/transcriptome:
+Purpose: Computes relative synonymous codon usage of the 59 degenerate codons over the set of coding sequnces (CDS)/transcriptome:
             according to Sharp and Li, 1986
 ******************************************************************************************************
 How to Use :
