@@ -1,7 +1,7 @@
 ## About CodonCount
 
 
-Purpose: Command-lie tool that computes the length normalized codon usage of each 61 sense codons of a coding sequence (CDS):
+Purpose: Command-line tool that computes the length normalized codon usage of each 61 sense codons of a coding sequence (CDS), and returns a comma-separated table.
             
 	    Relative freq. of codon_i=  (frequency of codon_i)/(total number of codons in the CDSj)
 ******************************************************************************************************
