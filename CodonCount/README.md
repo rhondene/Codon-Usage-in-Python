@@ -1,5 +1,5 @@
-##CodonCount
-#Author: Rhondene Wint (rwint@ucmerced.edu)
+## CodonCount
+# Author: Rhondene Wint (rwint@ucmerced.edu)
 
 Purpose: Command-lie tool that computes the length normalized codon usage of each 61 sense codons of a coding sequence (CDS):
             Relative freq. of codon_i=  (frequency of codon_i)/(total number of codons in the CDSj)
