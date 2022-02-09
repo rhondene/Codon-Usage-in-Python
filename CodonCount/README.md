@@ -1,5 +1,5 @@
-## CodonCount
-# Author: Rhondene Wint 
+## About CodonCount
+
 
 Purpose: Command-lie tool that computes the length normalized codon usage of each 61 sense codons of a coding sequence (CDS):
             
