@@ -14,3 +14,4 @@ How to Use :
 	```console 
 	python CodonCount.zip your_sequences.fasta name_of_output
 	```
+	
