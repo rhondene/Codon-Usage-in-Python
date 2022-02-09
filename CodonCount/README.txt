@@ -8,6 +8,7 @@ How to Use :
 1. Ensure that python3 (version 3.5 or higher) is installed. 
 	Recommended to install python via anaconda https://docs.anaconda.com/anaconda/install/index.html
 2. download the CodonCount.zip file in this github repo into your working folder. 
-3. Then Unzip the CodonCount.zip folder. 
+3. Then Unzip the CodonCount.zip folder.  
+	*Optional* At this point you can use the program as is by typing ```console python CodonCount.zip your_sequences.fasta name_of_output```
 4. Open a terminal window (bash, gitbash, powershell, etc) in the same working folder. 
-5. Run the command: 'python CodonCount --help' for details on how to add arguments.
+5. Run the command: ``` console python ./CodonCount --help``` for details on how to add arguments.
