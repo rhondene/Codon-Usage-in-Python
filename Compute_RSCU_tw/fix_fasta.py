@@ -52,7 +52,7 @@ if __name__ =='__main__':
     fasta=zip(fix_fasta(args.filename) )
     
     ### re-rewrite the file as a proper fasta such that only newline between sequences and headers
-    with open(new_filename, 'w') as f:
+    with open(args.new_filename, 'w') as f:
         for header,seq in fasta:
             f.write(header+'\n'+seq+'\n')
 
