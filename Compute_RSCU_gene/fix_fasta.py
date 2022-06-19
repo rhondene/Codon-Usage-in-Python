@@ -36,8 +36,8 @@ def fix_fasta(filename):
             else:
                 continue
 
-    
-    return [headers,sequences]
+    assert len(headers)==len(sequences), 'Number of headers does not equal number of sequences' 
+    return zip(headers,sequences)
 	
 	
 #--------------------------
@@ -49,7 +49,7 @@ if __name__ =='__main__':
     
     args = parser.parse_args()
 
-    fasta=zip(fix_fasta(args.filename) )
+    fasta=fix_fasta(args.filename) 
     
     ### re-rewrite the file as a proper fasta such that only newline between sequences and headers
     with open(args.new_filename, 'w') as f:
