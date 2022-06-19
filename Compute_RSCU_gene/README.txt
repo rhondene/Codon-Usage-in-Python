@@ -2,8 +2,8 @@
 
 Purpose: Computes relative synonymous codon usage of each 59 degenerate codons per each coding sequence (CDS)
             according to Sharp and Li, 1986
-Input:  fasta file of coding sequences
-Output: comma-separated table of the relative synonymous codon usage 
+Input:  fasta file of n coding sequences
+Output: comma-separated table (csv) of the relative synonymous codon usage for each gene: i.e. table of gene x 59-RSCU 
 ******************************************************************************************************
 How to Use :
 1. Ensure that python3 (version 3.5 or higher) is installed. 
