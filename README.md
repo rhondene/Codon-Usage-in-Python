@@ -1,4 +1,4 @@
-# Codon-Usage-in-Python
+# Python tools for Codon Usage Bias Analysis
 Python3 command-line programs for calculating popular gene-specific or genome-wide codon usage frequencies, e.g. RSCU, from sequence files (.fasta).  I work with hundreds of species in parallel so these scripts to handle batch processing of multiple files - a task that was difficult to accomplish with previously published tools. 
 
 # Terms
