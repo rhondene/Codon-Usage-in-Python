@@ -1,5 +1,5 @@
 # Codon-Usage-in-Python
-Python3  implementation of popular codon usage metrics for manipulating genomic files (.fasta).  I work with hundreds of species in parallel so these scripts to handle batch processing of multiple files - a task that was difficult to accomplish with previously published tools. I will update with more code once I finish the manuscript that I am using these algorithms i.
+Python3 command-line programs for calculating popular gene-specific or genome-wide codon usage frequencies, e.g. RSCU, from sequence files (.fasta).  I work with hundreds of species in parallel so these scripts to handle batch processing of multiple files - a task that was difficult to accomplish with previously published tools. 
 
 # Terms
 ## Codon Usage Bias
