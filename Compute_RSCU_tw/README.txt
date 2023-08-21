@@ -1,6 +1,6 @@
 ## Author: Rhondene Wint,PhD (rwint@ucmerced.edu)
 
-Purpose: Computes relative synonymous codon usage (RSCU) of the ALL codons over the entire set of coding sequnces(CDS)/transcriptome-wide:
+Purpose: Computes relative synonymous codon usage (RSCU) and absolute counts of the ALL codons over the entire set of coding sequnces(CDS)/transcriptome-wide:
             implemented  according to  Sharp and Li, 1986  PMCID: PMC340524
 Input: a fasta file of coding sequences (CDS)
 Output: a comma-separated table (.csv) file of the RSCU values
