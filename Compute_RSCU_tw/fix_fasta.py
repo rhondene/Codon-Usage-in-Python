@@ -37,7 +37,7 @@ def fix_fasta(filename):
                 continue
 
     assert len(headers)==len(sequences), 'Number of headers does not equal number of sequences'
-    return zip(headers,sequences)
+    return [headers,sequences]
 	
 	
 #--------------------------
