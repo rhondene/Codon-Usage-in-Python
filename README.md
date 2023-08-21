@@ -1,6 +1,14 @@
 # Python tools for Codon Usage Bias Analysis
 Python3 command-line programs for calculating popular gene-specific or genome-wide codon usage frequencies, e.g. RSCU, from sequence files (.fasta).  I work with hundreds of species in parallel so these scripts to handle batch processing of multiple files - a task that was difficult to accomplish with previously published tools. 
 
+## Tools:
+- <b>Compute_RSCU_gene </b>:  computes the RSCU for each individual  transcript
+- <b>Compute_RSCU_tw </b>:  computes the RSCU and absolute codon counts over the entire CDS ('transciptome-wde') in fasta file.
+- <b>CodonUsage_per_1000 </b>:  Computes codon usage per 1000 of the whole transcriptome.
+- <b>fasta2csv</b>: converts fasta file to two-column csv table (Header | Sequence); 
+- <b> aa_usage </b>: computes the Amino acid usage
+- <b> fix_fasta.py </b>: corrects the issue of newlines within the same sequence. 
+
 # Terms
 ## Codon Usage Bias
 The unequal usage synonymous codons within a gene or genome from uniform distribution. 
