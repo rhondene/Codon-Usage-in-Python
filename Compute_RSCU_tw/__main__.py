@@ -49,7 +49,7 @@ def preproc(fasta_file):
 
 def get_cod_freq(seqs):
     """ seqs: list of CDS
-    	Returns a 59-dim dataframe of total absolute codon frequencies
+    	Returns a 64-dim dataframe of total absolute codon frequencies
     """
     
     codon_count=dict() 
@@ -80,8 +80,8 @@ def get_cod_freq(seqs):
 
 def compute_rscu_weights(df_codcount):
     """ Caclculates Relative Synonymous codon usage (RSCU) wij = RSCUij/ RSCU i,max
-    Input: 59-dim codon count dataframe
-    Returns: 59-dim dataframe of RSCU values for each codon """
+    Input: 64-dim codon count dataframe
+    Returns: 64-dim dataframe of RSCU values for each codon """
     aa_groups = df_codcount.groupby('Amino_Acid')
     aa =  df_codcount['Amino_Acid'].unique()  #make a list of all amino acids to iterate over
     df_list = []
@@ -95,7 +95,7 @@ def compute_rscu_weights(df_codcount):
 
 
 if __name__=='__main__':
-	about = 'Computes transcriptome-wide Relative synonymous codon usage. Written by Rhondene Wint, rwint@ucmerced.edu.'
+	about = 'Computes transcriptome-wide Relative synonymous codon usage and absolute codon counts. Written by Rhondene Wint, rwint@ucmerced.edu.'
 	epi_note = 'To contact the author about problems or errors,make a pull request at https://github.com/rhondene/Codon-Usage-in-Python'
 	parser = argparse.ArgumentParser(description=about,epilog=epi_note)
 	parser.add_argument('-CDS', help='Path to fasta file with species coding sequences', type=str, required=True, metavar='')
