@@ -88,7 +88,7 @@ def get_cod_freq(gene):
 
 if __name__=='__main__':
     #print a welcome message with my contacts
-    msg = "Welcome to CodonCount@2021. \n To send questions and suggestions, you may make a pull request at github OR  email rwint@ucmerced.edu"
+    msg = "Thanks for using CodonCount@2021. \n To send questions and suggestions, you may make a pull request at github OR  email rwint@ucmerced.edu"
     print(msg)
     parser = argparse.ArgumentParser(description="Computes the Fractional Codon Frequency for each coding sequence and outputs a csv table of results. Written by Rhondene Wint (rwint@ucmerced.edu).")
     parser.add_argument('filename', help='Name or path of input fasta file with coding sequences. E.g. CDS.fasta')
