@@ -5,8 +5,7 @@ import argparse
 import os
 import pandas as pd
 import warnings
-from pandas.core.common import SettingWithCopyWarning
-
+from pandas.errors import SettingWithCopyWarning
 warnings.simplefilter(action="ignore", category=SettingWithCopyWarning)
 
 import fix_fasta
