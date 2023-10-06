@@ -15,7 +15,7 @@
 The unequal usage synonymous codons within a gene or genome i.e. the deviation of synonymous codons from a uniform distribution. 
 
 ## Relative Synonymous Codon Usage
-- The RSCU of a codon is computed as its observed frequency  divided by its expected frequency within a gene or whole transcriptome under the null hypothesis of equal synonymous codon usage. 
-- RSCU greater that 1 means that the codon is used more than expected by random chance. [Sharp & Li 1987].
-- Codons with high RSCU in highly expressed genes are referred to as "optimal codons". For many species the optimal codons are selectively recognised by the abundant tRNAs, which is often taken as an indication selection pressures shaping codon usage patterns [Ikemura 1983; Wint et al 2022]. 
+<li> The RSCU of a codon is computed as its observed frequency  divided by its expected frequency within a gene or whole transcriptome under the null hypothesis of equal synonymous codon usage. </li>
+<li> RSCU greater that 1 means that the codon is used more than expected by random chance. [Sharp & Li 1987]. </li>
+<li>Codons with high RSCU in highly expressed genes are referred to as "optimal codons". For many species the optimal codons are selectively recognised by the abundant tRNAs, which is often taken as an indication selection pressures shaping codon usage patterns [Ikemura 1983; Wint et al 2022]. </li>
 
