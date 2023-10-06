@@ -72,7 +72,7 @@ def compute_rscu_weights(df_codcnt):
     for a in aa:
         d=aa_groups.get_group(a)
         d['RSCU'] = d['Obs_Freq'].values/d['Obs_Freq'].mean() #obs/expected freq,
-        d['AA-Codon']=d['Amino_acid']+'-'+d['Codon'] 
+        d['AA-Codon']=d['Amino_acid']+'-'+d['Codon']
         df_list.append(d)
         rscu = pd.concat(df_list).fillna(0)  #some genomes may not use any amino acids
     return rscu # rscu of a gene

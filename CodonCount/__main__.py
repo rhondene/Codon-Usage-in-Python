@@ -7,6 +7,9 @@
 import argparse
 import pandas as pd
 import fix_fasta
+from pandas.errors import SettingWithCopyWarning
+warnings.simplefilter(action="ignore", category=SettingWithCopyWarning)
+
 
 #codon_aa_table
 codon_aa = {

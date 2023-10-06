@@ -1,11 +1,10 @@
 """Compute Relative Synonymous Codon Usage (RSCU) of  a transcriptome(Sharp and Li 1986)"""
 import argparse
-import os
 import pandas as pd
-#import warnings
-#from pandas.core.common import SettingWithCopyWarning
+import warnings
+from pandas.errors import SettingWithCopyWarning
+warnings.simplefilter(action="ignore", category=SettingWithCopyWarning)
 
-#warnings.simplefilter(action="ignore", category=SettingWithCopyWarning)
 
 import fix_fasta
 
