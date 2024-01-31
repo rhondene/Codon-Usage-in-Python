@@ -10,4 +10,6 @@ How to Use :
 	Recommended to install python via anaconda https://docs.anaconda.com/anaconda/install/index.html
 2. download and unzipped the Compute_RSCU_gene folder from github repo into your working folder containing the input FASTA file.
 3. Open a terminal window (bash, gitbash, powershell, etc) in the same working folder.
-4. Run the command: `python3 ./Compute_RSCU_gene --help`  for how to add arguments.
+4. Type the following in the terminal, be sure to replace the input and output arguments with your own :
+   - `python3 ./Compute_RSCU_gene -CDS example_cds.fasta -out rscu_results `
+   - Also run `python3 ./Compute_RSCU_gene --help`  for help menu.
