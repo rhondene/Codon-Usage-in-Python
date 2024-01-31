@@ -83,7 +83,7 @@ if __name__=='__main__':
     about = 'Computes relative synonymous codon usage per coding sequeunce. Written by Rhondene Wint, rwint@ucmerced.edu.'
     epi_note = 'To contact the author about problems or errors,make a pull request at https://github.com/rhondene/Codon-Usage-in-Python'
     parser = argparse.ArgumentParser(description=about,epilog=epi_note)
-    parser.add_argument('-CDS', help='Path to fasta file with species coding sequences', type=str, required=True, metavar='')
+    parser.add_argument('-CDS', help='Path to fasta file with  coding sequences', type=str, required=True, metavar='')
     parser.add_argument('-out', help='Path of destination folder for output file', type=str, default='./file_out.rscu', metavar='') 
 
     args=parser.parse_args()
