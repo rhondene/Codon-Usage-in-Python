@@ -4,11 +4,11 @@
 import argparse
 import pandas as pd
 import numpy as np
-import warnings
-from pandas.core.common import SettingWithCopyWarning
-warnings.simplefilter(action="ignore", category=SettingWithCopyWarning) #suppress copy warning
-
 import fix_fasta
+from pandas.errors import SettingWithCopyWarning
+import warnings
+warnings.simplefilter(action="ignore", category=SettingWithCopyWarning)
+
 
 #codon_aa_table
 codon_aa = {
@@ -34,42 +34,31 @@ codon_aa = {
 	"GAU":"Asp", "GAC":"Asp", "GAA":"Glu", "GAG":"Glu",
 	"GGU":"Gly", "GGC":"Gly", "GGA":"Gly", "GGG":"Gly"}
 	
-	
-### preprocess the fasta file
 
-
-def preproc(fasta_file):
-	"""formats fasta sequences to a list"""
-	
-	#flybase fasta file has internal newline in the same seqeunce 
-	seqs=fix_fasta.fix_fasta(fasta_file)[1] #contains list of sequences
-	return seqs
 ##compute codon count
-
-def get_cod_freq(seqs):
-	""" seqs: list of CDS
+def get_cod_freq(headers:list, seqs:list)->pd.DataFrame:
+	""" Computes the codon usage per 1000 over the entire set of CDS
+		headers: list of headers
+		seqs: list of CDS
 		Returns a 59-dim dataframe of total absolute codon frequencies
 	"""
-	
+	###build dictionary to accumulate codon counts; omit  stop codons
 	codon_count=dict() 
+	STOP_CODONS = ['UAA', 'UAG', 'UGA']
+	codon_count = {codon: 0 for codon in codon_aa if codon not in STOP_CODONS }
 
-	for codon in list(codon_aa.keys()):
-		codon_count[codon]=0  ##dictionary to accumulate codon count
-	#count the codons in each CDS	
-	for cds in seqs:
+	for i,cds in enumerate(seqs):
 		cds = cds.upper().replace('T','U')
-		codons = []
-		##make a list of codons
-		for c in range(0,len(cds),3):
-			if len(cds)%3 ==0:
-				cod=cds[c:c+3]
-				if 'N' not in cod:	##ignore N and seqs not multiple of 3
-					codons.append(cod)
-			else:
-				continue
-
-		for c in list(codon_count.keys()):
-			codon_count[c]+= codons.count(c)
+		if len(cds)%3 !=0:
+			ID = headers[i].split(' ')[0]
+			print(f"WARNING: Skipping {ID} Length of CDS is not a multiple of 3.")
+			continue
+		
+		##count codons in cds
+		for i in range(0, len(cds), 3):
+			codon = cds[i:i+3]
+			if codon in codon_count:
+				codon_count[codon] += 1
 	
 	df_codcount=pd.DataFrame(list(codon_count.items()) )
 	df_codcount.columns=['Codon', 'Frequency']
@@ -81,7 +70,7 @@ def get_cod_freq(seqs):
 	
 if __name__=='__main__':
 
-	about = 'Computes codon usage per 1000 of a whole transcriptome. Written by Rhondene Wint, rwint@ucmerced.edu.'
+	about = 'Computes codon usage per 1000 of a whole transcriptome. Rules: \n Skips CDS if the length of CDS is not a multiple of 3 \n Skips Codons with unknown bases.  \nWritten by Rhondene Wint, rwint@ucmerced.edu.'
 	epi_note = 'To contact the author about problems or errors,make a pull request at https://github.com/rhondene/Codon-Usage-in-Python'
 	parser = argparse.ArgumentParser(description=about,epilog=epi_note)
 	parser.add_argument('-CDS', help='Path to fasta file with species coding sequences', type=str, required=True, metavar='')
@@ -89,11 +78,11 @@ if __name__=='__main__':
 
 	args=parser.parse_args()
 	
-	seqs=preproc(args.CDS)##formats fasta into csv of sequences
-	CU = get_cod_freq(seqs)	 ##computes codon usage per 1000
+	headers,seqs=fix_fasta.fix_fasta(args.CDS)##formats fasta into csv of sequences
+	CU = get_cod_freq(headers,seqs)	 ##computes codon usage per 1000
 
 	#save the file
-	CU.to_csv('{}.cu.csv'.format(args.out), index=False)
+	CU.to_csv('{}.cu1000.csv'.format(args.out), index=False)
 
 
 	
