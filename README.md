@@ -2,13 +2,53 @@
 - Python3 command-line programs for calculating popular single-gene or genome-wide codon usage frequencies, e.g. RSCU, from sequence files (.fasta).  I worked with hundreds of species in parallel so these scripts to handle batch processing of multiple files and outputs a CSV format table that is easier to parse - a task that was difficult to accomplish with previously published tools. 
 - These tools were validated against the original CodonW software by Peden, 1995
 
-## Tools:
-- <b>Compute_RSCU_gene </b>:  computes the RSCU for each individual  Coding Sequence (CDS). The output is a matrix of 59 codons x n genes
-- <b>Compute_RSCU_tw </b>:  computes the RSCU and absolute codon counts of a <i> single CDS </i> or over entire set of CDS ('transciptome-wde') in fasta file.
-- <b>CodonUsage_per_1000 </b>:  Computes codon usage per 1000 of the whole transcriptome.
-- <b>fasta2csv</b>: converts fasta file to two-column csv table (Header | Sequence); 
-- <b> aa_usage </b>: computes the Amino acid usage
-- <b> fix_fasta.py </b>: corrects the issue of newlines within the same sequence. 
+# Tools and Their Usage:
+All tools require that  python3 version 3.8 or higher is installed. Recommended to install python3 via anaconda https://docs.anaconda.com/anaconda/install/index.html 
+### Compute_RSCU_gene :  
+- Computes relative synonymous codon usage of each 59 degenerate codons per each coding sequence (CDS) according to Sharp and Li, 1986 PMCID: PMC340524
+- Input:  FASTA file of N coding sequences (CDS)
+- Output: comma-separated table (csv) of the relative synonymous codon usage for each transcript: i.e. a matrix of N transcripts x 59 RSCU values
+  ******************************************************************************************************
+How to Use :
+
+<li> Download the <i>Compute_RSCU_gene.zip</i> folder from github repo into your project folder containing the input FASTA file.</li>
+<li>Open a terminal window (bash, gitbash, powershell, etc) in the same working folder.</li> 
+<li>Type the following in the terminal, be sure to replace the input and output arguments with your own :</li>
+     
+     ```
+       python3 Compute_RSCU_gene.zip -CDS example_cds.fasta -out rscu_results
+   - Also run ```python3 Compute_RSCU_gene.zip --help```  for help menu.
+
+### Compute_RSCU_tw :  
+-  Computes relative synonymous codon usage (RSCU) and absolute counts of the 59 synonymous codons over the entire set (aggregate) of coding sequences('transcriptome-wide'). Implemented  according to  Sharp and Li, 1986  PMCID: PMC340524
+- Input: single or multifasta file of coding sequences (CDS)
+- Output: a comma-separated table (.csv) file of the 59 RSCU values
+  ******************************************************************************************************
+How to Use :
+1. Download and unzipped the Compute_RSCU_tw folder from github repo into your working folder that contains the input fasta file of CDS.
+2. Open a terminal window (bash, gitbash, powershell, etc) in the same working folder.
+3. Run the command: ```python ./Compute_RSCU_tw --help```  for how to add arguments.
+4. 
+### CodonCount: 
+- Command-line tool that computes the length normalized codon usage of each 61 sense codons of a coding sequence (CDS), and returns a comma-separated table.
+            
+	    Relative freq. of codon_i=  (frequency of codon_i)/(total number of codons in the CDSj)
+******************************************************************************************************
+How to Use :
+2. Download the *CodonCount.zip* file in this github repo into your working folder with the input fasta file(s). 
+3. Open a terminal window (bash, gitbash, powershell, etc) in the same working folder.
+4. To run the programn, tpe the command below in the terminal shell (be sure to replace arguments with the actual name the input and output files):
+	```console
+	python3 CodonCount.zip example.fasta example_output
+ ### CodonUsage_per_1000:  
+- Computes codon usage per 1000 of the whole transcriptome.
+- 
+### fasta2csv : 
+- Converts fasta file to two-column csv table (Header | Sequence); 
+### aa_usage :
+- Computes the Amino acid usage
+### fix_fasta.py: 
+- Corrects the issue of newlines within the same sequence. 
 
 # Terms
 ## Codon Usage Bias
