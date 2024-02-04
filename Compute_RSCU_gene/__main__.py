@@ -35,47 +35,42 @@ codon_aa = {
     "GGU":"Gly", "GGC":"Gly", "GGA":"Gly", "GGG":"Gly",}
     
 
-def get_cod_freq(gene,ID):
+def get_cod_freq(cds:str,ID:str)->pd.DataFrame:
     "computes absolute codon counts in the input gene coding sequence"
-    codon_count=dict() 
     
     #ignore 1-fold Met and Trp, along with stop codons
     non_deg=['AUG', "UAA","UAG", "UGA", "UGG" ]
-    
-    for codon in list(codon_aa.keys()):
-        if codon not in non_deg :
-            codon_count[codon]=0
-    #make a list of codons
-    codons=[]
-    for c in range(0,len(gene),3):
-        cod=gene[c:c+3]
-        if 'N' not in cod:  ##ignore N
-            codons.append(cod)
-        else:
-            continue
-    for c in list(codon_count.keys()):
-        codon_count[c]+= codons.count(c)
+    codon_count=dict() 
+    codon_count = {codon: 0 for codon in codon_aa if codon not in non_deg }
+    ##count codons in cds
+    for i in range(0, len(cds), 3):
+        codon = cds[i:i+3]
+        if codon in codon_count:
+            codon_count[codon] += 1
 
     df_codcnt=pd.DataFrame(list(codon_count.items()) )
     df_codcnt.columns=['Codon', 'Obs_Freq']
     df_codcnt['Amino_acid'] = [codon_aa[codon] for codon in df_codcnt['Codon'].values]
-    df_codcnt['Length']= len(gene)
+    df_codcnt['Length']= len(cds)
     df_codcnt['SeqID']= ID
     return df_codcnt
     
 #compute relative usagae from codon frequency
-def compute_rscu_weights(df_codcnt):
-    """ wij = RSCUij/ RSCU i,max"""
+def compute_rscu_weights(df_codcnt:pd.DataFrame)->pd.DataFrame:
+    """Computes the RSCU of the CDS """
     aa_groups = df_codcnt.groupby('Amino_acid')
     aa =  df_codcnt['Amino_acid'].unique()  #make a list of all amino acids to iterate over
     df_list = []
     for a in aa:
         d=aa_groups.get_group(a)
-        d['RSCU'] = d['Obs_Freq'].values/d['Obs_Freq'].mean() #obs/expected freq,
+        if d['Obs_Freq'].mean() == 0.0:
+            d['RSCU'] = 0.0
+        else:
+            d['RSCU'] = d['Obs_Freq'].values/d['Obs_Freq'].mean() #obs/expected freq,
         d['AA-Codon']=d['Amino_acid']+'-'+d['Codon']
         df_list.append(d)
         rscu = pd.concat(df_list).fillna(0)  #some genomes may not use any amino acids
-    return rscu # rscu of a gene
+    return rscu 
 
        
 if __name__=='__main__':
@@ -90,15 +85,15 @@ if __name__=='__main__':
 
 
     headers,seqs=fix_fasta.fix_fasta(args.CDS)##preprocess fasta to a paired list of headers and sequences
+    
     df_list=[]
     for i in range(len(seqs)):
-        gene = seqs[i].replace('T','U').upper()
-        ID = headers[i]
-        if len(gene)%3 !=0:
-            print('Gene {} not multiple of 3'.format(ID))
+        cds= seqs[i].replace('T','U').upper()
+        ID = headers[i].split(' ')[0]
+        if len(cds)%3 !=0:
+            print( f'WARNING! Skipping CDS {ID} not multiple of 3')
             continue
-        
-        df_codcnt = get_cod_freq(gene,ID)
+        df_codcnt = get_cod_freq(cds,ID)
         df_codcnt.to_csv('df_count2.csv',index=False)
         rscu = compute_rscu_weights(df_codcnt)
         df_list.append(rscu) ## append RSCU matrix of each gene
@@ -109,12 +104,9 @@ if __name__=='__main__':
     for rscu in df_list:  #rname rscu_list
         r3 = rscu.set_index('AA-Codon').drop(omit, axis=1).T
         r3.reset_index(drop=True)
-        
             ##add a gene information column
         r3['SeqID']= rscu['SeqID'].values[0]
         r3['Length']=rscu['Length'].values[0] 
       
         comb.append(r3)
-
-
     pd.concat(comb,axis=0).reset_index(drop=True).to_csv(args.out+'_rscu.csv',index=False)
