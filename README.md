@@ -54,7 +54,9 @@ How to Use :
 ### fasta2csv : 
 - Converts fasta file to two-column csv table (Header | Sequence); 
 ### aa_usage :
-- Computes the Amino acid usage
+- Computes the Expected and Observed Amino acid usage according https://qubeshub.org/publications/979/serve/1/3067?el=1&download=1 and  https://pubmed.ncbi.nlm.nih.gov/5767777/
+- To run, download the script in your project folder and type in the terminal  ``` python aa_usage.py -CDS YOUR_CDS.fasta -out OUTPUT_NAME```
+-  
 ### fix_fasta.py: 
 - Corrects the issue of newlines within the same sequence. 
 
@@ -67,3 +69,7 @@ The unequal usage synonymous codons within a gene or genome i.e. the deviation o
 <li> RSCU greater that 1 means that the codon is used more than expected by random chance. [Sharp & Li 1987]. </li>
 <li>Codons with high RSCU in highly expressed genes are referred to as "optimal codons". For many species the optimal codons are selectively recognised by the abundant tRNAs, which is often taken as an indication selection pressures shaping codon usage patterns [Ikemura 1983; Wint et al 2022]. </li>
 
+## Amino Acid Frequency:
+" If a particular amino acid is in some way adaptive, then it should occur more frequently than expected by chance. This can easily be tested by calculating the expected frequencies of amino acids and comparing to observed. The codons and observed frequencies of particular amino acids are given in the table.
+- The frequencies of DNA bases in nature are 22.0% uracil, 30.3% adenine, 21.7% cytosine, and 26.1% guanine. The expected frequency of a particular codon can then be calculated by multiplying the frequencies of each DNA base comprising the codon. The expected frequency of the amino acid can then be calculated by adding the frequencies of each codon that codes for that amino acid.
+- As an example, the RNA codons for tyrosine are UAU and UAC, so the random expectation for its frequency is (0.220)(0.303)(0.220) + (0.220)(0.303)(0.217) = 0.0292. Since 3 of the 64 codons are nonsense or stop codons, this frequency for each amino acid is multiplied by a correction factor of 1.057."
