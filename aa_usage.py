@@ -1,21 +1,33 @@
 #author: Rhondene Wint
-# To compute Amino acid usage of 1 or hundreds of species
+# To compute Amino acid usage from FASTA of Coding sequences
 
+"""If a particular amino acid is in some way adaptive, then it should occur more frequently than expected by chance. This can easily be tested by calculating the expected frequencies of amino acids and comparing to observed. The codons and observed frequencies of particular amino acids are given in the table.
+- The frequencies of DNA bases in nature are 22.0% uracil, 30.3% adenine, 21.7% cytosine, and 26.1% guanine. The expected frequency of a particular codon can then be calculated by multiplying the frequencies of each DNA base comprising the codon. The expected frequency of the amino acid can then be calculated by adding the frequencies of each codon that codes for that amino acid.
+- As an example, the RNA codons for tyrosine are UAU and UAC, so the random expectation for its frequency is (0.220)(0.303)(0.220) + (0.220)(0.303)(0.217) = 0.0292. Since 3 of the 64 codons are nonsense or stop codons, this frequency for each amino acid is multiplied by a correction factor of 1.057."""
 import pandas as pd
 import numpy as np
+import argparse
+import sys
 
 
-def get_seqs(species):
-    """species: path of fasta file of the species 
-    parse fasta file into a list of coding sequences
-    Returns: list of each coding sequences
-   """
-    seqs = []
-    with open(species, 'r') as f:
+def get_seqs(fasta: str) -> list:
+    """Parse fasta file into a list of coding sequences, handling internal newlines."""
+    seqs = []; headers=[]
+    current_seq = ''  
+    with open(fasta, 'r') as f:
         for line in f:
-            if line.startswith('>') is False:
-                seqs.append(line.rstrip())
-    return seqs
+            if line.startswith('>'):
+                headers.append(line.strip())
+                if current_seq:  
+                    seqs.append(current_seq)
+                    current_seq = ''  # Reset current sequence
+                continue  # Skip the header line
+            else:
+                current_seq += line.strip()  
+        if current_seq:  
+            seqs.append(current_seq)
+    return headers, seqs
+
 
 ## dictionary that maps codons to amino acids
 """break up 6-codon family into 2 and 4 fold (Ser (S), L(Leu), R (Arg))"""
@@ -43,101 +55,74 @@ codon_to_aa = {
     "GGU":"Gly", "GGC":"Gly", "GGA":"Gly", "GGG":"Gly"}
 
 
-def get_cod_freq(seqs):
+def get_cod_freq(headers:list, seqs:list)->pd.DataFrame:
     """ seqs: list of CDS
-    	Returns a 59-dim dataframe of total absolute codon frequencies
     """
-    
     codon_count=dict() 
-
-    for codon in list(codon_to_aa.keys()):
-        codon_count[codon]=0  ##dictionary to accumulate codon count
-        
-    for cds in seqs:
+    codon_count = {codon: 0 for codon in codon_to_aa}
+    for i,cds in enumerate(seqs):
+        if len(cds)%3 !=0:
+            ID = headers[i].split(' ')[0]
+            print(f"WARNING: Skipping {ID} Length of CDS is not a multiple of 3.")
+            continue
         cds = cds.upper().replace('T','U')
-        codons = []
-        ##make a list of codons
-        for c in range(0,len(cds),3):
-            if len(cds)%3 ==0:
-                cod=cds[c:c+3]
-                if 'N' not in cod:  ##ignore N and seqs not multiple of 3
-                    codons.append(cod)
-            else:
-                continue
-
-        for c in list(codon_count.keys()):
-            codon_count[c]+= codons.count(c)
-    
+        ##count codons in cds
+        for i in range(0, len(cds), 3):
+            codon = cds[i:i+3]
+            if codon in codon_count:
+                codon_count[codon] += 1
     df_codcount=pd.DataFrame(list(codon_count.items()) )
     df_codcount.columns=['Codon', 'Obs_Freq']
     df_codcount['Amino_Acid'] = [codon_to_aa[codon] for codon in df_codcount['Codon'].values] ## add amino acid column
     
     return df_codcount
 
-def compute_rscu_weights(df_codcount):
-    """ Caclculates Relative Synonymous codon usage (RSCU) wij = RSCUij/ RSCU i,max
-    Input: 59-dim codon count dataframe
-    Returns: 59-dim dataframe of RSCU values for each codon """
+def compute_rscu_weights(df_codcount:pd.DataFrame)->pd.DataFrame:
+    """ Caclculates Relative Synonymous codon usage (RSCU) """
     aa_groups = df_codcount.groupby('Amino_Acid')
-    aa =  df_codcount['Amino_Acid'].unique()  #make a list of all amino acids to iterate over
     df_list = []
-    for a in aa:
-        d=aa_groups.get_group(a)
-        d['RSCU'] = d['Obs_Freq'].values/d['Obs_Freq'].mean() #obs/expected freq 
-        d['Relative_Adaptive_Weights'] = d['RSCU'].values/d['RSCU'].max() 
-        d['optimal'] = [True if rscu==d['RSCU'].max() else False for rscu in d['RSCU'].values] #marks optimal codon
-        d['Species'] = species
+    for a, group in aa_groups:
+        d = group.copy()
+        d['RSCU'] = d['Obs_Freq'] / d['Obs_Freq'].mean()
+        d['Relative_Adaptive_Weights'] = d['RSCU'] / d['RSCU'].max()
+        d['optimal'] = d['RSCU'] == d['RSCU'].max()
         df_list.append(d)
     return pd.concat(df_list)
-	
-## save codon usage tables 
-for species in names:  #names is a list of filenames of fasta files
-    seqs = get_seqs(species)  ##formats fasta into list of sequences
-    df_rscu = get_cod_freq(seqs)  ##computes absolute codon frequencies
-    rscu = compute_rscu_weights(df_rscu)  ##computes RSCU and adaptive weights
-##saves final table with RSCU, adaptive weights and codon frequencies,
-    rscu.to_csv('../RSCU_genomes/{}_all_codons_rscu.csv'.format(species),index=False, sep=',')
-
-	
-###### then compute AA usage from codon usage table######
-base_freq = {'U' :0.220, "A":0.303, 'C':0.217, 'G':0.261}  ##natural frequency in nature
 
 ## to consolidate all codons of 6-box amino acids; you may or may not want to do this
 def no_six(aa):
     return aa[:3]
-	
-	
-##very fast , 460 genomes under 30 seconds
 
-#genomes is a list of file names with the RSCU codon usage tables
-for species in genomes:
-    df_rscu=pd.read_table('../RSCU_genomes_all_codons/{}_all_codons_rscu.csv'.format(species),sep=',')
-    df_rscu=df_rscu[df_rscu['Amino_Acid']!='STOP']
-    df_rscu['AA_no_six'] = df_rscu['Amino_Acid'].apply(no_six) #comment out if you choose not to
-    AA =  df_rscu['AA_no_six'].unique()
-    AA_group = df_rscu.groupby('AA_no_six')
-    aa_usage = dict()
-    for amino in AA:
-
-        df = AA_group.get_group(amino)
-        ##compute expected aa frequncy 
-        expected_aa_usage = 0;
-        for codon in df['Codon'].values:
+def compute_aa_usage(species: str, df_rscu: pd.DataFrame)->pd.DataFrame:
+    """Computes and saves amino acid usage."""
+    base_freq = {'U': 0.220, "A": 0.303, 'C': 0.217, 'G': 0.261}  # Base frequency in nature
+    df_rscu = df_rscu[df_rscu['Amino_Acid'] != 'STOP']
+    aa_usage = {}
+    
+    for amino, group in df_rscu.groupby('Amino_Acid'):
+        expected_aa_usage = 0
+        for codon in group['Codon'].values:
             expected_aa_usage+= base_freq[codon[0]]*base_freq[codon[1]]*base_freq[codon[2]]
         expected_aa_usage = expected_aa_usage*1.057  ##correction factor
-        
-        ##compute observed aa frequncy (aa_freq/all_codon_freq )
-        obs_freq = df['Obs_Freq'].sum()
+        obs_freq = group['Obs_Freq'].sum() / df_rscu['Obs_Freq'].sum()
+        aa_usage[amino] = [expected_aa_usage*100, obs_freq * 100, group['Obs_Freq'].sum(), len(group['Codon'].unique())]
 
-        obs_freq= obs_freq/df_rscu['Obs_Freq'].sum()
-        num_codons = df['Codon'].unique().shape[0]
-        
-
-        aa_usage[amino] = [expected_aa_usage*100, obs_freq*100, df['Obs_Freq'].sum(),num_codons ]
+    aa_df = pd.DataFrame.from_dict(aa_usage, orient='index', columns=['Expected_Freq(%)', 'Obs_Freq(%)', 'Abs_Freq', 'Num_Codons']).reset_index()
+    aa_df.columns = ['Amino_acid', 'Expected_Freq(%)', 'Obs_Freq(%)', 'Abs_Freq', 'Num_Codons']
     
+    return aa_df
+    
+if __name__ == '__main__':
+    parser = argparse.ArgumentParser(description="Computes Observed and Expected Amino Acid Frequencies + RSCU from FASTA of Coding Sequences according to https://qubeshub.org/publications/979/serve/1/3067?el=1&download=1 .")
+    parser.add_argument("-CDS", help="Path to the input FASTA file.", type=str, required=True, metavar='')
+    parser.add_argument("-out", help="Prefix for the output files.",  type=str, required=True,metavar='')
+    parser.add_argument("-keep_sixfold_aa", help=" True|False Whether to consolidate sixfold degenerate amino acids or break up into 4fold and 2fold. Default is False.", default=False, metavar='')
+    args = parser.parse_args()
 
-    ##format into table
-    aa_df = pd.DataFrame.from_dict(aa_usage,orient='index').reset_index()
-    aa_df.columns = ['Amino_acid','Expected_Freq(%)', 'Obs_Freq(%)', 'Abs_Freq','Num_Codons']
-    aa_df['Species']=species
-    aa_df.to_csv('../AA_usage/{}_aa_usage.csv'.format(species), index=False, sep=',')
+    headers,seqs = get_seqs(args.CDS)
+    df_rscu = get_cod_freq(headers, seqs)  ##computes absolute codon frequencies
+    rscu = compute_rscu_weights(df_rscu)  ##computes RSCU and adaptive weights
+    aa_df = compute_aa_usage(args.out, rscu)  ##computes amino acid usage
+
+    rscu.to_csv(f'{args.out}_rscu.csv', index=False, sep=',')
+    aa_df.to_csv(f'{args.out}_aa_usage.csv', index=False, sep=',')
