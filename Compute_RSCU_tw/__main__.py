@@ -4,13 +4,11 @@ import pandas as pd
 import warnings
 from pandas.errors import SettingWithCopyWarning
 warnings.simplefilter(action="ignore", category=SettingWithCopyWarning)
-
-
 import fix_fasta
 
 ## dictionary that maps codons to amino acids
 """break up 6-codon family into 2 and 4 fold (Ser (S), L(Leu), R (Arg))"""
-codon_to_aa = {
+codon_aa = {
     "UUU":"Phe", "UUC":"Phe",         
     "UCU":"Ser4", "UCC":"Ser4", "UCA":"Ser4", "UCG":"Ser4",
     "AGU":"Ser2", "AGC":"Ser2",
@@ -35,52 +33,40 @@ codon_to_aa = {
 
 
 
-
-##preprocess fasta file into csv
-
-def preproc(fasta_file):
-    """formats fasta sequences to a list"""
-    
-    #flybase fasta file has internal newline in the same seqeunce 
-    seqs=fix_fasta.fix_fasta(fasta_file)[1] #contains list of sequences
-    return seqs
-
-
-def get_cod_freq(seqs):
-    """ seqs: list of CDS
+def get_cod_freq(headers:list, seqs:list):
+    """ 
+        headers: list of headers
+        seqs: list of CDS
     	Returns a 64-dim dataframe of total absolute codon frequencies
     """
     
+    codon_count=dict()
+	#ignore 1-fold Met and Trp, along with stop codons
+    non_deg=['AUG', "UAA","UAG", "UGA", "UGG" ]
     codon_count=dict() 
-
-    for codon in list(codon_to_aa.keys()):
-        codon_count[codon]=0  ##dictionary to accumulate codon count
-    #count the codons in each CDS   
-    for cds in seqs:
+    codon_count = {codon: 0 for codon in codon_aa if codon not in non_deg }
+	
+    for i,cds in enumerate(seqs):
+        if len(cds)%3 !=0:
+            ID = headers[i].split(' ')[0]
+            print(f"WARNING: Skipping {ID} Length of CDS is not a multiple of 3.")
+            continue
         cds = cds.upper().replace('T','U')
-        codons = []
-        ##make a list of codons
-        for c in range(0,len(cds),3):
-            if len(cds)%3 ==0:
-                cod=cds[c:c+3]
-                if 'N' not in cod:  ##ignore N and seqs not multiple of 3
-                    codons.append(cod)
-            else:
-                continue
-
-        for c in list(codon_count.keys()):
-            codon_count[c]+= codons.count(c)
+        ##count codons in cds
+        for i in range(0, len(cds), 3):
+            codon = cds[i:i+3]
+            if codon in codon_count:
+                codon_count[codon] += 1
     
     df_codcount=pd.DataFrame(list(codon_count.items()) )
     df_codcount.columns=['Codon', 'Obs_Freq']
-    df_codcount['Amino_Acid'] = [codon_to_aa[codon] for codon in df_codcount['Codon'].values] ## add amino acid column
+    df_codcount['Amino_Acid'] = [codon_aa[codon] for codon in df_codcount['Codon'].values] ## add amino acid column
     
     return df_codcount
 
-def compute_rscu_weights(df_codcount):
+def compute_rscu_weights(df_codcount:pd.DataFrame)->pd.DataFrame:
     """ Caclculates Relative Synonymous codon usage (RSCU) wij = RSCUij/ RSCU i,max
-    Input: 64-dim codon count dataframe
-    Returns: 64-dim dataframe of RSCU values for each codon """
+    Returns: 59-dim dataframe of RSCU values for each codon """
     aa_groups = df_codcount.groupby('Amino_Acid')
     aa =  df_codcount['Amino_Acid'].unique()  #make a list of all amino acids to iterate over
     df_list = []
@@ -103,8 +89,8 @@ if __name__=='__main__':
 	args=parser.parse_args()
 
 
-	seqs=preproc(args.CDS)##formats fasta into csv of sequences
-	df_codcount = get_cod_freq(seqs)  ##computes absolute codon frequencies
+	headers,seqs=fix_fasta.fix_fasta(args.CDS) ##formats fasta into csv of sequences
+	df_codcount = get_cod_freq(headers,seqs)	  ##computes absolute codon frequencies
 	rscu = compute_rscu_weights(df_codcount)  ##computes RSCU and adaptive weights
 
 	#save the file

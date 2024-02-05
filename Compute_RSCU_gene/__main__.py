@@ -88,13 +88,14 @@ if __name__=='__main__':
     
     df_list=[]
     for i in range(len(seqs)):
-        cds= seqs[i].replace('T','U').upper()
         ID = headers[i].split(' ')[0]
         if len(cds)%3 !=0:
-            print( f'WARNING! Skipping CDS {ID} not multiple of 3')
+            ID = headers[i].split(' ')[0]
+            print(f"WARNING: Skipping {ID} Length of CDS is not a multiple of 3.")
             continue
+        cds= seqs[i].replace('T','U').upper()
         df_codcnt = get_cod_freq(cds,ID)
-        df_codcnt.to_csv('df_count2.csv',index=False)
+        df_codcnt.to_csv('per_gene_absolute_codon_counts.csv',index=False)
         rscu = compute_rscu_weights(df_codcnt)
         df_list.append(rscu) ## append RSCU matrix of each gene
 
@@ -107,6 +108,5 @@ if __name__=='__main__':
             ##add a gene information column
         r3['SeqID']= rscu['SeqID'].values[0]
         r3['Length']=rscu['Length'].values[0] 
-      
         comb.append(r3)
     pd.concat(comb,axis=0).reset_index(drop=True).to_csv(args.out+'_rscu.csv',index=False)
