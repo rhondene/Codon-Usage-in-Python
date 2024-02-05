@@ -45,7 +45,6 @@ def get_cod_freq(headers:list, seqs:list):
     non_deg=['AUG', "UAA","UAG", "UGA", "UGG" ]
     codon_count=dict() 
     codon_count = {codon: 0 for codon in codon_aa if codon not in non_deg }
-	
     for i,cds in enumerate(seqs):
         if len(cds)%3 !=0:
             ID = headers[i].split(' ')[0]
@@ -88,13 +87,12 @@ if __name__=='__main__':
 
 	args=parser.parse_args()
 
-
 	headers,seqs=fix_fasta.fix_fasta(args.CDS) ##formats fasta into csv of sequences
 	df_codcount = get_cod_freq(headers,seqs)	  ##computes absolute codon frequencies
 	rscu = compute_rscu_weights(df_codcount)  ##computes RSCU and adaptive weights
 
 	#save the file
-	rscu.to_csv('{}.rscu'.format(args.out), index=False)
+	rscu.to_csv('{}.rscu.csv'.format(args.out), index=False)
 
    
                       

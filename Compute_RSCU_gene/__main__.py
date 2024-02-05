@@ -1,4 +1,4 @@
-
+#author Rhondene Wint
 #!/usr/bin/python
 
 import argparse
@@ -80,14 +80,12 @@ if __name__=='__main__':
     parser = argparse.ArgumentParser(description=about,epilog=epi_note)
     parser.add_argument('-CDS', help='Path to fasta file with  coding sequences', type=str, required=True, metavar='')
     parser.add_argument('-out', help='Path of destination folder for output file', type=str, default='./file_out.rscu', metavar='') 
-
     args=parser.parse_args()
-
 
     headers,seqs=fix_fasta.fix_fasta(args.CDS)##preprocess fasta to a paired list of headers and sequences
     
     df_list=[]
-    for i in range(len(seqs)):
+    for i,cds in enumerate(seqs):
         ID = headers[i].split(' ')[0]
         if len(cds)%3 !=0:
             ID = headers[i].split(' ')[0]
@@ -108,5 +106,8 @@ if __name__=='__main__':
             ##add a gene information column
         r3['SeqID']= rscu['SeqID'].values[0]
         r3['Length']=rscu['Length'].values[0] 
+        #reorder columns so seqID and length are first
+        cols = r3.columns.tolist()
+        r3 = r3[cols[-2:]+cols[:-2]]
         comb.append(r3)
     pd.concat(comb,axis=0).reset_index(drop=True).to_csv(args.out+'_rscu.csv',index=False)
