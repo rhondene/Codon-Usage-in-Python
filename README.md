@@ -1,9 +1,11 @@
 # Python tools for Codon Usage Bias Analysis
-- Python3 command-line programs for calculating popular single-gene or genome-wide codon usage frequencies, e.g. RSCU, from sequence files (.fasta).  I worked with hundreds of species in parallel so these scripts to handle batch processing of multiple files and outputs a CSV format table that is easier to parse - a task that was difficult to accomplish with previously published tools. 
+- Python3 command-line programs for calculating popular single-gene or genome-wide codon usage frequencies, e.g. RSCU, from sequence files (.fasta).  I worked with hundreds of species in parallel so these scripts to handle batch processing of multiple files and outputs a CSV format table that is easier to parse and amenable to statistical analysis like PCA - a task that was difficult to accomplish with previously published tools. 
 - These tools were validated against the original CodonW software by Peden, 1995
 
 # Tools and Their Usage:
-All tools require that  python3 version 3.8 or higher is installed. Recommended to install python3 via anaconda https://docs.anaconda.com/anaconda/install/index.html 
+- All tools require that  python3 version 3.8 or higher is installed and pandas version 2.0 or higher. Recommended to install python3 via anaconda https://docs.anaconda.com/anaconda/install/index.html 
+
+- Please see the ```test_data``` folder for examples of the outputs of each tool on the same input fasta file ('NB_CDS.fasta')
 ### Compute_RSCU_gene :  
 - Computes relative synonymous codon usage of each 59 degenerate codons per each coding sequence (CDS) according to Sharp and Li, 1986 PMCID: PMC340524
 - Input:  FASTA file of N coding sequences (CDS)
