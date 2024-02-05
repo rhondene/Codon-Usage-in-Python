@@ -5,7 +5,7 @@
 # Tools and Their Usage:
 - All tools require that  python3 version 3.8 or higher is installed and pandas version 2.0 or higher. Recommended to install python3 via anaconda https://docs.anaconda.com/anaconda/install/index.html 
 
-- Please see the ```test_data``` folder for examples of the outputs of each tool on the same input fasta file ('NB_CDS.fasta')
+- <font color='green'> See </font> the ```test_data``` folder for examples of the outputs of each tool on the same input fasta file ('NB_CDS.fasta')
 ### Compute_RSCU_gene :  
 - Computes relative synonymous codon usage of each 59 degenerate codons per each coding sequence (CDS) according to Sharp and Li, 1986 PMCID: PMC340524
 - Input:  FASTA file of N coding sequences (CDS)
