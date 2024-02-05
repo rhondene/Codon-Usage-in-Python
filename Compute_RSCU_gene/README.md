@@ -12,4 +12,4 @@ How to Use :
 3. Open a terminal window (bash, gitbash, powershell, etc) in the same working folder.
 4. Type the following in the terminal, be sure to replace the input and output arguments with your own :
    - `python Compute_RSCU_gene.pyz -CDS example_cds.fasta -out rscu_results `
-   - Also run `python  ./Compute_RSCU_gene --help`  for help menu.
+   - Also run `python  Compute_RSCU_gene.pyz --help`  for help menu.
