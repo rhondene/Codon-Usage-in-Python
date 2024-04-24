@@ -19,6 +19,7 @@ How to Use :
      
      ```
        python Compute_RSCU_gene.pyz -CDS example_cds.fasta -out rscu_results
+       ```
    - Also run ```python Compute_RSCU_gene.pyz --help```  for help menu.
 
 ### Compute_RSCU_tw :  
@@ -29,7 +30,9 @@ How to Use :
 How to Use :
 1. Download Compute_RSCU_tw.pyz binary from Compute_RSCU_tw repo into your working folder that contains the input fasta file of CDS.
 2. Open a terminal window (bash, gitbash, powershell, etc) in the same working folder.
-3. To run the programn, type the command below in the terminal shell (be sure to replace arguments with the actual name the input and output files): ```python Compute_RSCU_tw.pyz -CDS example.fasta -out results```  
+3. To run the programn, type the command below in the terminal shell (be sure to replace arguments with the actual name the input and output files):
+
+   ```python Compute_RSCU_tw.pyz -CDS example.fasta -out results```  
 
 ### CodonCount: 
 - Command-line tool that computes the length normalized codon usage of each 61 sense codons of a coding sequence (CDS), and returns a comma-separated table.
@@ -42,6 +45,7 @@ How to Use :
 4. To run the programn, type the command below in the terminal shell (be sure to replace arguments with the actual name the input and output files):
 	```console
 	python CodonCount.pyz -CDS example.fasta -out example_output
+ 	``` 
  Also run ```python CodonCount.pyz --help```  for help menu.
 
  ### CodonUsage_per_1000:  
@@ -50,6 +54,7 @@ How to Use :
 4. To run the programn, type the command below in the terminal shell (be sure to replace arguments with the actual name the input and output files):
 	```console
 	python CodonUsage_per_1000.pyz -CDS all_CDS.fasta -out  results_cu
+  	```
  Also run ```python CodonUsage_per_1000.pyz --help```  for help menu.
 ### fasta2csv : 
 - Converts fasta file to two-column csv table (Header | Sequence); 
