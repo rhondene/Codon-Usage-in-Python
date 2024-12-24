@@ -1,9 +1,16 @@
-# Python tools for Codon Usage Bias Analysis - 
-- Python3 command-line programs for calculating popular single-gene or genome-wide codon usage frequencies, e.g. RSCU, from FASTA sequence files (.fasta)
-- These software tools are straightforward to use. All you need to do is to install python3 and then download the binary file (.pyz) from the tool's folder in this repo.	
-- <b> Motivation </b>: I worked with hundreds of genomes so I wrote these scripts to handle batch processing of multiple genomes/ input files and outputs a CSV formatted table that is easier to parse and amenable to statistical analysis like PCA - a task that I found tedious  because  previously published tools would output the conventional wide-form codon usage table that needed extra processing.  
+# Python tools for Codon Usage Bias Analysis  - 
+- This repository hosts different Python3 command-line programs for calculating popular codon usage and amino acid usage frequency statistics from FASTA sequence files (.fasta).
+- To use these tools , all that needs to be done is to install python3 and then download the executable binary file <b>(.pyz)</b> from the tool's folder in this repo.	
+- <b> Motivation </b>: I worked with hundreds of genomes so I wrote these scripts to handle batch processing of multiple genomes/ input files and outputs a CSV formatted table that is easier to parse and amenable to statistical analysis like PCA - a task that I found tedious  because  previously published tools would output the conventional wide-form codon usage table that needed extra processing.
+  	- <b> Genomics Publications that use these tools <b>:
+  		<ul>
+    <li><a href="https://www.mdpi.com/2073-4425/15/12/1602" target="_blank">Transfer RNA Levels Are Tuned to Support Differentiation During Drosophila Neurogenesis</a></li>
+	</ul>	
+ <ul>
+    <li><a href="https://academic.oup.com/mbe/article/39/2/msab372/6513383" target="_blank">Kingdom-Wide Analysis of Fungal Protein-Coding and tRNA Genes Reveals Conserved Patterns of Adaptive Evolution</a></li>
+	</ul>
+   
 - These Codon Usage tools were validated against the original CodonW software by Peden, 1995
-
   
    <b> <font color='d#f59e42'> ***[Interactive Jupyter Notebook version Coming Soon in Summer 2024!]*** </font></b>
    
@@ -12,6 +19,8 @@
 - Recommended to install python3 via anaconda https://docs.anaconda.com/anaconda/install/index.html 
 
 - <font color='green'> See </font> the ```test_data``` folder for examples of the outputs of each tool on the same input fasta file ('NB_CDS.fasta')
+# ------How to Use Each Tool ------
+
 ### Compute_RSCU_gene :  
 - Computes relative synonymous codon usage of each 59 degenerate codons per each coding sequence (CDS) according to Sharp and Li, 1986 PMCID: PMC340524
 - `Input`:  FASTA file of N coding sequences (CDS)
@@ -21,7 +30,7 @@
 
 1. Download the `Compute_RSCU_gene.pyz` binary from the Compute_RSCU_gene github repo into your project folder containing the input FASTA file.
 2. Open a terminal window (bash, gitbash, powershell, etc) in the same working folder.</li> 
-3. Type the following in the terminal, be sure to replace the input and output arguments with your own :</li>
+3. Type the following in the terminal, be sure to replace the names of the input and output arguments with your own :</li>
 
 ```console
 	python Compute_RSCU_gene.pyz -CDS example_cds.fasta -out rscu_results
