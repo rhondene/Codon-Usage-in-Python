@@ -3,12 +3,12 @@
 - To use these tools , all that needs to be done is to install python3 and then download the executable binary file <b>(.pyz)</b> from the tool's folder in this repo.	
 - <b> Motivation </b>: I worked with hundreds of genomes so I wrote these scripts to handle batch processing of multiple genomes/ input files and outputs a CSV formatted table that is easier to parse and amenable to statistical analysis like PCA - a task that I found tedious  because  previously published tools would output the conventional wide-form codon usage table that needed extra processing.
   	- <b> Genomics Publications that use these tools <b>:
-  		<ul>
-    <li><a href="https://www.mdpi.com/2073-4425/15/12/1602" target="_blank">Transfer RNA Levels Are Tuned to Support Differentiation During Drosophila Neurogenesis</a></li>
-	</ul>	
- <ul>
-    <li><a href="https://academic.oup.com/mbe/article/39/2/msab372/6513383" target="_blank">Kingdom-Wide Analysis of Fungal Protein-Coding and tRNA Genes Reveals Conserved Patterns of Adaptive Evolution</a></li>
-	</ul>
+	  		<ul>
+	    <li><a href="https://www.mdpi.com/2073-4425/15/12/1602" target="_blank">Transfer RNA Levels Are Tuned to Support Differentiation During Drosophila Neurogenesis</a></li>
+		</ul>	
+		 <ul>
+		    <li><a href="https://academic.oup.com/mbe/article/39/2/msab372/6513383" target="_blank">Kingdom-Wide Analysis of Fungal Protein-Coding and tRNA Genes Reveals Conserved Patterns of Adaptive Evolution</a></li>
+			</ul>
    
 - These Codon Usage tools were validated against the original CodonW software by Peden, 1995
   
