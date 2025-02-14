@@ -1,0 +1,5 @@
+[console_scripts]
+codon-count = codonpy.CodonCount.__main__:main
+codon-usage-per-1000 = codonpy.CodonUsage_per_1000.__main__:main
+compute_RSCU_gene = codonpy.Compute_RSCU_gene.__main__:main
+compute_RSCU_transcriptome = codonpy.Compute_RSCU_tw.__main__:main

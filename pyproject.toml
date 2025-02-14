@@ -1,0 +1,39 @@
+[build-system]
+requires = ["setuptools", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "codonpy"
+version = "2025.02.14"
+dependencies = [
+    "pandas",
+    "numpy"
+]
+requires-python = ">=3.4"
+authors = [
+  {name = "Rhondene Wint", email = "rhondenewint93@gmail.com"}
+]
+maintainers = [
+  {name = "Rhondene Wint", email = "rhondenewint93@gmail.com"},
+  {name = "Michael Gilmore", email = "michael_gilmore@live.com"}
+]
+description = "Python tools for Codon Usage Bias Analysis"
+readme = "README.md"
+license = {text = "GPL-3"}
+keywords = []
+classifiers = [
+  "Development Status :: 4 - Beta",
+  "Programming Language :: Python"
+]
+
+[project.urls]
+Homepage = "https://github.com/rhondene/Codon-Usage-in-Python"
+Documentation = "https://github.com/rhondene/Codon-Usage-in-Python"
+Repository = "https://github.com/rhondene/Codon-Usage-in-Python.git"
+"Bug Tracker" = "https://github.com/rhondene/Codon-Usage-in-Python/issues"
+
+[project.scripts]
+codon-count = "codonpy.CodonCount.__main__:main"
+codon-usage-per-1000 = "codonpy.CodonUsage_per_1000.__main__:main"
+compute_RSCU_gene = "codonpy.Compute_RSCU_gene.__main__:main"
+compute_RSCU_transcriptome = "codonpy.Compute_RSCU_tw.__main__:main"
