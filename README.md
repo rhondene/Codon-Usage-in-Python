@@ -1,18 +1,21 @@
-# Python tools for Codon Usage Bias Analysis  - 
+# Python tools for Codon Usage Bias Analysis  
 - This repository hosts different Python3 command-line programs for calculating popular codon usage and amino acid usage frequency statistics from FASTA sequence files (.fasta).
 - To use these tools , all that needs to be done is to install python3 and then download the executable binary file <b>(.pyz)</b> from the tool's folder in this repo.	
 - <b> Motivation </b>: I worked with hundreds of genomes so I wrote these scripts to handle batch processing of multiple genomes/ input files and outputs a CSV formatted table that is easier to parse and amenable to statistical analysis like PCA - a task that I found tedious  because  previously published tools would output the conventional wide-form codon usage table that needed extra processing.
-  	- <b> Genomics Publications that use these tools <b>:
+  	- <b> Genomics Publications that used Codon-Usage-inPython <b>:
 	  		<ul>
 	    <li><a href="https://www.mdpi.com/2073-4425/15/12/1602" target="_blank">Transfer RNA Levels Are Tuned to Support Differentiation During Drosophila Neurogenesis</a></li>
 		</ul>	
 		 <ul>
 		    <li><a href="https://academic.oup.com/mbe/article/39/2/msab372/6513383" target="_blank">Kingdom-Wide Analysis of Fungal Protein-Coding and tRNA Genes Reveals Conserved Patterns of Adaptive Evolution</a></li>
 			</ul>
+
+		<ul>
+		    <li><a href="https://www.biorxiv.org/content/10.1101/2025.07.20.664904v2.abstract" target="_blank">Super-pangenome analysis of 3562 human and animal papillomavirus isolates illuminates their genome and pathogenicity evolution</a></li>
+			</ul>
    
-- These Codon Usage tools were validated against the original CodonW software by Peden, 1995
+- I validated Codon Usage tools  against the original and widely loved CodonW by Peden, 1995. 
   
-   <b> <font color='d#f59e42'> ***[Interactive Jupyter Notebook version Coming Soon in Summer 2024!]*** </font></b>
    
 # Software Setup:
 - All tools require python3 version 3.8 or higher is installed and pandas version 2.0 or higher.
