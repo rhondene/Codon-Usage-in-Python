@@ -1,6 +1,6 @@
 # Python tools for Codon Usage Bias Analysis  
-- This repository hosts different Python3 command-line programs for calculating popular codon usage and amino acid usage frequency statistics from FASTA sequence files (.fasta).
-- To use these tools , all that needs to be done is to install python3 and then download the executable binary file <b>(.pyz)</b> from the tool's folder in this repo.	
+- This repository hosts different Python3 command-line programs and new graphical user interface web app! for calculating popular codon usage and amino acid usage frequency statistics from FASTA sequence files (.fasta).
+- Quickest way to use these tools is to install python3.10 (or higher via  anaconda) and then download the executable binary file <b>(.pyz)</b> from the tool's folder in this repo.	
 - <b> Motivation </b>: I worked with hundreds of genomes so I wrote these scripts to handle batch processing of multiple genomes/ input files and outputs a CSV formatted table that is easier to parse and amenable to statistical analysis like PCA - a task that I found tedious  because  previously published tools would output the conventional wide-form codon usage table that needed extra processing.
   	- <b> Genomics Publications that used Codon-Usage-inPython <b>:
 	  		<ul>
@@ -18,11 +18,35 @@
   
    
 # Software Setup:
-- All tools require python3 version 3.8 or higher is installed and pandas version 2.0 or higher.
+- All tools require python3 version 3.10 or higher is installed and pandas version 2.0 or higher.
 - Recommended to install python3 via anaconda https://docs.anaconda.com/anaconda/install/index.html 
 
 - <font color='green'> See </font> the ```test_data``` folder for examples of the outputs of each tool on the same input fasta file ('NB_CDS.fasta')
-# ------How to Use Each Tool ------
+# ------How to the Codon Usage Web App   ------
+1. Open Terminal (Mac/Linux) or Command Prompt (Windows)
+2. Clone the repository:
+   ```bash
+   git clone https://github.com/rhondene/Codon-Usage-in-Python.git
+   ```
+3. Navigate to the project folder:
+   ```bash
+   cd Codon-Usage-in-Python/codon-usage-gui
+   ```
+4. Install the package:
+   ```bash
+   pip install -e .
+   ```
+### Step 2: Launch the Browser based Web App 
+Open your terminal and type:
+```bash
+codon-usage-gui
+```
+A web page will automatically open in your browser!
+If not, just click on the `Local URL: http://localhost:xxx` to surface the web page
+<img width="639" height="343" alt="image" src="https://github.com/user-attachments/assets/f8fdb52b-d60b-47b7-8e40-26b7ff64be63" />
+
+
+# ------How to Use Each Command-line Tool ------
 
 ### Compute_RSCU_gene :  
 - Computes relative synonymous codon usage of each 59 degenerate codons per each coding sequence (CDS) according to Sharp and Li, 1986 PMCID: PMC340524
