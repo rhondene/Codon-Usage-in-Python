@@ -43,11 +43,11 @@ A modern, user-friendly Streamlit-based GUI for codon usage bias analysis design
 1. Open Terminal (Mac/Linux) or Command Prompt (Windows)
 2. Clone the repository:
    ```bash
-   git clone https://github.com/username/codon-usage-gui.git
+   git clone https://github.com/rhondene/Codon-Usage-in-Python.git
    ```
 3. Navigate to the project folder:
    ```bash
-   cd codon-usage-gui
+   cd Codon-Usage-in-Python/codon-usage-gui
    ```
 4. Install the package:
    ```bash
