@@ -1,0 +1,153 @@
+Metadata-Version: 2.4
+Name: codon-usage-gui
+Version: 0.1.0
+Summary: A Streamlit GUI for codon usage bias analysis with installable Python tools
+Author-email: Rhondene Wint <author@example.com>
+License: MIT
+Project-URL: Homepage, https://github.com/username/codon-usage-gui
+Project-URL: Bug Reports, https://github.com/username/codon-usage-gui/issues
+Project-URL: Source, https://github.com/username/codon-usage-gui
+Keywords: bioinformatics,codon-usage,genomics,streamlit
+Classifier: Development Status :: 3 - Alpha
+Classifier: Intended Audience :: Science/Research
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.8
+Classifier: Programming Language :: Python :: 3.9
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Programming Language :: Python :: 3.11
+Classifier: Topic :: Scientific/Engineering :: Bio-Informatics
+Requires-Python: >=3.8
+Description-Content-Type: text/markdown
+Requires-Dist: pandas>=2.0.0
+Requires-Dist: numpy>=1.20.0
+Requires-Dist: streamlit>=1.28.0
+Requires-Dist: plotly>=5.0.0
+Requires-Dist: matplotlib>=3.5.0
+Requires-Dist: seaborn>=0.11.0
+
+# Codon Usage GUI
+
+A modern, installable Streamlit-based GUI for codon usage bias analysis. This tool extends the original [Codon-Usage-in-Python](https://github.com/username/Codon-Usage-in-Python) project with an interactive web interface.
+
+## Features
+
+🧬 **Comprehensive Analysis Types:**
+- Transcriptome-wide RSCU (Relative Synonymous Codon Usage)
+- Per-gene RSCU analysis
+- Amino acid usage analysis (expected vs observed)
+- Codon usage per 1000 codons
+- Relative codon frequencies
+
+📊 **Interactive Visualizations:**
+- RSCU heatmaps
+- Codon usage bar plots
+- Amino acid usage comparisons
+- Distribution histograms
+
+💾 **Data Export:**
+- Download results as CSV files
+- Multiple output formats supported
+
+🖥️ **Easy Installation:**
+- Installable Python package
+- Single command launch
+- No manual setup required
+
+## Installation
+
+```bash
+# Clone or download this directory
+cd codon-usage-gui
+
+# Install the package
+pip install -e .
+
+# Or install from PyPI (when published)
+pip install codon-usage-gui
+```
+
+## Usage
+
+### Launch the GUI
+
+After installation, simply run:
+
+```bash
+codon-usage-gui
+```
+
+This will launch the Streamlit web interface in your default browser.
+
+### Using the Interface
+
+1. **Upload Data**: Use the sidebar to upload a FASTA file or paste sequences directly
+2. **Select Analysis**: Choose from 5 different analysis types
+3. **Run Analysis**: Click "Run Analysis" to process your data
+4. **View Results**: Explore interactive plots and data tables
+5. **Download**: Export results as CSV files
+
+### Input Format
+
+The tool accepts FASTA format files containing coding sequences (CDS):
+
+```
+>gene1
+ATGGCTAAGTAG
+>gene2
+ATGTTTGCCTAG
+>gene3
+ATGGCCAAATAG
+```
+
+## Requirements
+
+- Python 3.8+
+- pandas >= 2.0.0
+- numpy >= 1.20.0
+- streamlit >= 1.28.0
+- plotly >= 5.0.0
+- matplotlib >= 3.5.0
+- seaborn >= 0.11.0
+
+## Analysis Methods
+
+### RSCU (Relative Synonymous Codon Usage)
+Calculates the relative usage of synonymous codons according to Sharp and Li (1986). Values > 1 indicate codons used more frequently than expected.
+
+### Amino Acid Usage
+Compares observed amino acid frequencies to expected frequencies based on random codon usage, using base frequencies from nature.
+
+### Codon Usage per 1000
+Normalizes codon counts to usage per 1000 codons for easier comparison across samples.
+
+## Development
+
+To contribute or modify the code:
+
+```bash
+# Clone the repository
+git clone <repository-url>
+cd codon-usage-gui
+
+# Install in development mode
+pip install -e .
+
+# Run the app directly
+python -m codon_usage_gui.app
+```
+
+## License
+
+MIT License - see LICENSE file for details.
+
+## Citation
+
+If you use this tool in your research, please cite:
+
+[Original publication information here]
+
+## References
+
+- Sharp, P. M., & Li, W. H. (1986). An evolutionary perspective on synonymous codon usage in unicellular organisms. Journal of molecular evolution, 24(1-2), 28-38.
+- [Additional references from original project]

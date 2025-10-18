@@ -1,0 +1,178 @@
+[build-system]
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "codon-usage-gui"
+version = "0.1.0"
+description = "A user-friendly Streamlit GUI for codon usage bias analysis designed for biologists"
+readme = "README.md"
+authors = [
+    {name = "Rhondene Wint", email = "author@example.com"}
+]
+license = {text = "MIT"}
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Science/Research",
+    "Intended Audience :: Education",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Scientific/Engineering :: Bio-Informatics",
+    "Topic :: Scientific/Engineering :: Visualization",
+    "Operating System :: OS Independent",
+    "Environment :: Web Environment",
+]
+keywords = [
+    "bioinformatics", 
+    "codon-usage", 
+    "genomics", 
+    "streamlit", 
+    "rscu", 
+    "molecular-biology",
+    "sequence-analysis",
+    "gui"
+]
+requires-python = ">=3.8"
+dependencies = [
+    "pandas>=1.5.0",
+    "numpy>=1.20.0",
+    "streamlit>=1.28.0",
+    "plotly>=5.0.0",
+    "matplotlib>=3.5.0",
+    "seaborn>=0.11.0",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=7.0.0",
+    "pytest-cov>=4.0.0",
+    "black>=22.0.0",
+    "flake8>=5.0.0",
+    "mypy>=1.0.0",
+    "pre-commit>=2.20.0",
+    "twine>=4.0.0",
+    "build>=0.8.0",
+]
+test = [
+    "pytest>=7.0.0",
+    "pytest-cov>=4.0.0",
+    "coverage>=6.0.0",
+]
+docs = [
+    "sphinx>=5.0.0",
+    "sphinx-rtd-theme>=1.0.0",
+    "myst-parser>=0.18.0",
+]
+
+[project.urls]
+"Homepage" = "https://github.com/username/codon-usage-gui"
+"Bug Reports" = "https://github.com/username/codon-usage-gui/issues"
+"Source" = "https://github.com/username/codon-usage-gui"
+"Documentation" = "https://github.com/username/codon-usage-gui/blob/main/README.md"
+
+[project.scripts]
+codon-usage-gui = "codon_usage_gui.cli:main"
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["codon_usage_gui*"]
+exclude = ["tests*"]
+
+[tool.setuptools.package-data]
+codon_usage_gui = ["*.py", "examples/*.fasta"]
+
+# Testing configuration
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+python_files = ["test_*.py"]
+python_classes = ["Test*"]
+python_functions = ["test_*"]
+addopts = [
+    "--verbose",
+    "--tb=short",
+    "--strict-markers",
+    "--disable-warnings",
+    "--cov=codon_usage_gui",
+    "--cov-report=term-missing",
+    "--cov-report=html",
+    "--cov-fail-under=80"
+]
+markers = [
+    "slow: marks tests as slow (deselect with '-m \"not slow\"')",
+    "integration: marks tests as integration tests",
+    "unit: marks tests as unit tests",
+]
+
+# Coverage configuration
+[tool.coverage.run]
+source = ["codon_usage_gui"]
+omit = [
+    "*/tests/*",
+    "*/test_*",
+    "*/__pycache__/*",
+    "*/venv/*",
+    "*/env/*",
+]
+
+[tool.coverage.report]
+exclude_lines = [
+    "pragma: no cover",
+    "def __repr__",
+    "raise AssertionError",
+    "raise NotImplementedError",
+    "if __name__ == .__main__.:",
+    "@abstract",
+]
+
+# Black code formatting
+[tool.black]
+line-length = 88
+target-version = ['py38', 'py39', 'py310', 'py311']
+include = '\.pyi?$'
+extend-exclude = '''
+/(
+  \.eggs
+  | \.git
+  | \.hg
+  | \.mypy_cache
+  | \.tox
+  | \.venv
+  | _build
+  | buck-out
+  | build
+  | dist
+)/
+'''
+
+# MyPy type checking
+[tool.mypy]
+python_version = "3.8"
+warn_return_any = true
+warn_unused_configs = true
+disallow_untyped_defs = false  # Set to false for initial development
+disallow_incomplete_defs = true
+check_untyped_defs = true
+disallow_untyped_decorators = false
+no_implicit_optional = true
+warn_redundant_casts = true
+warn_unused_ignores = true
+warn_no_return = true
+warn_unreachable = true
+strict_equality = true
+
+[[tool.mypy.overrides]]
+module = [
+    "streamlit.*",
+    "plotly.*",
+    "seaborn.*",
+    "matplotlib.*",
+]
+ignore_missing_imports = true
+
+# Flake8 linting (configuration in .flake8 file would be needed)
+# This is here for reference but flake8 uses .flake8 or setup.cfg

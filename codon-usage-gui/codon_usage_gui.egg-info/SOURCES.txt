@@ -1,0 +1,13 @@
+README.md
+pyproject.toml
+codon_usage_gui/__init__.py
+codon_usage_gui/app.py
+codon_usage_gui/cli.py
+codon_usage_gui.egg-info/PKG-INFO
+codon_usage_gui.egg-info/SOURCES.txt
+codon_usage_gui.egg-info/dependency_links.txt
+codon_usage_gui.egg-info/entry_points.txt
+codon_usage_gui.egg-info/requires.txt
+codon_usage_gui.egg-info/top_level.txt
+codon_usage_gui/core/__init__.py
+codon_usage_gui/core/analysis.py

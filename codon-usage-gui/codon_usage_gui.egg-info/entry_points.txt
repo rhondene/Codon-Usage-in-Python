@@ -1,0 +1,2 @@
+[console_scripts]
+codon-usage-gui = codon_usage_gui.cli:main

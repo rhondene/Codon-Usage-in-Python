@@ -1,0 +1,19 @@
+[flake8]
+max-line-length = 88
+extend-ignore = 
+    E203,  # Whitespace before ':'
+    E501,  # Line too long (handled by black)
+    W503,  # Line break before binary operator
+exclude = 
+    .git,
+    __pycache__,
+    .pytest_cache,
+    .mypy_cache,
+    build,
+    dist,
+    *.egg-info,
+    venv,
+    env
+per-file-ignores =
+    __init__.py:F401  # Ignore unused imports in __init__.py files
+    tests/*.py:D100,D101,D102,D103  # Ignore missing docstrings in tests
