@@ -1,8 +1,7 @@
 # Python tools for Codon Usage Bias Analysis  
 - This repository hosts different Python3 command-line programs and new graphical user interface web app! for calculating popular codon usage and amino acid usage frequency statistics from FASTA sequence files (.fasta).
-- Quickest way to use these tools is to install python3.10 (or higher via  anaconda) and then download the executable binary file <b>(.pyz)</b> from the tool's folder in this repo.	
 - <b> Motivation </b>: I worked with hundreds of genomes so I wrote these scripts to handle batch processing of multiple genomes/ input files and outputs a CSV formatted table that is easier to parse and amenable to statistical analysis like PCA - a task that I found tedious  because  previously published tools would output the conventional wide-form codon usage table that needed extra processing.
-  	- <b> Genomics Publications that used Codon-Usage-inPython <b>:
+  	- <b> Genomics Publications that used Codon-Usage-inPython </b>:
 	  		<ul>
 	    <li><a href="https://www.mdpi.com/2073-4425/15/12/1602" target="_blank">Transfer RNA Levels Are Tuned to Support Differentiation During Drosophila Neurogenesis</a></li>
 		</ul>	
@@ -17,12 +16,10 @@
 - I validated Codon Usage tools  against the original and widely loved CodonW by Peden, 1995. 
   
    
-# Software Setup:
+# -------Software Setup----------:
 - All tools require python3 version 3.10 or higher is installed and pandas version 2.0 or higher.
-- Recommended to install python3 via anaconda https://docs.anaconda.com/anaconda/install/index.html 
+- Recommended to install python3 via anaconda which comes pre-loaded with pandas https://docs.anaconda.com/anaconda/install/index.html
 
-- <font color='green'> See </font> the ```test_data``` folder for examples of the outputs of each tool on the same input fasta file ('NB_CDS.fasta')
-# ------How to the Codon Usage Web App   ------
 1. Open Terminal (Mac/Linux) or Command Prompt (Windows)
 2. Clone the repository:
    ```bash
@@ -35,18 +32,32 @@
 4. Install the package:
    ```bash
    pip install -e .
-   ```
-### Step 2: Launch the Browser based Web App 
+	```
+- <font color='green'> See </font> the ```test_data``` folder for examples of the outputs of each tool on the same input fasta file ('NB_CDS.fasta')
+# ------Run Codon Analysis Via Browser Web App (Recommended) ------
+## 🔬 Features
+
+**📊 Comprehensive Analysis Types:**
+- **Transcriptome-wide RSCU** (Relative Synonymous Codon Usage)
+- **Per-gene RSCU analysis** for individual sequence patterns
+- **Amino acid usage analysis** (expected vs observed frequencies)
+- **Codon usage per 1000 codons** for normalization
+- **Relative codon frequencies** per gene
+
 Open your terminal and type:
 ```bash
 codon-usage-gui
 ```
 A web page will automatically open in your browser!
 If not, just click on the `Local URL: http://localhost:xxx` to surface the web page
-<img width="639" height="343" alt="image" src="https://github.com/user-attachments/assets/f8fdb52b-d60b-47b7-8e40-26b7ff64be63" />
+<img width="401" height="89" alt="image" src="https://github.com/user-attachments/assets/2ea223eb-3200-4d13-a8cf-ed7a9dc9adf3" />
+
+<img width="1374" height="742" alt="image" src="https://github.com/user-attachments/assets/e4b2c792-468c-43b7-be75-ad8990c49024" />
 
 
-# ------How to Use Each Command-line Tool ------
+# ------How to Use Stand-alone Command-line Tool ------
+
+Here, you will use a single line of command  to run the executable binary file <b>(.pyz)</b> via the shell terminal .	
 
 ### Compute_RSCU_gene :  
 - Computes relative synonymous codon usage of each 59 degenerate codons per each coding sequence (CDS) according to Sharp and Li, 1986 PMCID: PMC340524
@@ -55,7 +66,7 @@ If not, just click on the `Local URL: http://localhost:xxx` to surface the web p
   ******************************************************************************************************
 <b>How to Use</b> :
 
-1. Download the `Compute_RSCU_gene.pyz` binary from the Compute_RSCU_gene github repo into your project folder containing the input FASTA file.
+1. Copy the `Compute_RSCU_gene.pyz` binary from the `Codon-Usage-in-Python/Compute_RSCU_gene` folder into your project folder containing the input FASTA file.
 2. Open a terminal window (bash, gitbash, powershell, etc) in the same working folder.</li> 
 3. Type the following in the terminal, be sure to replace the names of the input and output arguments with your own :</li>
 
@@ -71,7 +82,7 @@ If not, just click on the `Local URL: http://localhost:xxx` to surface the web p
 - `Output`: a comma-separated table (.csv) file of the 59 RSCU values
   ******************************************************************************************************
 **How to Use** :
-1. Download Compute_RSCU_tw.pyz binary from Compute_RSCU_tw repo into your working folder that contains the input fasta file of CDS.
+1. Copy Compute_RSCU_tw.pyz binary from `Codon-Usage-in-Python/Compute_RSCU_tw` folder into your working folder that contains the input fasta file of CDS.
 2. Open a terminal window (bash, gitbash, powershell, etc) in the same working folder.
 3. To run the programn, type the command below in the terminal shell (be sure to replace arguments with the actual name the input and output files):
 
@@ -85,7 +96,7 @@ Computes the length normalized codon frequency of each 61 sense codons of a codi
 	    Relative Frequency of Codon_i=  (frequency of codon_i)/(total number of codons in the CDSj)
 ******************************************************************************************************
 **How to Use** :
-1.  Download the `CodonCount.pyz` file in CodonCount github repo into your working folder with the input fasta file(s). 
+1.  Copy the `CodonCount.pyz` file in `Codon-Usage-in-Python/CodonCount` folder into your working folder with the input fasta file(s). 
 2. Open a terminal window (bash, gitbash, powershell, etc) in the same working folder.
 3.  To run the programn, type the command below in the terminal shell (be sure to replace arguments with the actual name the input and output files):
 	```console
@@ -95,7 +106,7 @@ Computes the length normalized codon frequency of each 61 sense codons of a codi
 
  ### CodonUsage_per_1000:   
  Computes codon usage per 1000 of the whole transcriptome.
-1. Download the `CodonUsage_per_1000.pyz` file in CodonUsage_per_1000 github repo into your working folder with the input fasta file(s).
+1. Copy the `CodonUsage_per_1000.pyz` file in `Codon-Usage-in-Python/CodonUsage_per_1000` folder into your working folder with the input fasta file(s).
 2. Open a terminal window (bash, gitbash, powershell, etc) in the same working folder.
 4. To run the programn, type the command below in the terminal shell (be sure to replace arguments with the actual name the input and output files):
 	```console
@@ -124,6 +135,7 @@ The unequal usage of synonymous codons within a gene or genome i.e. the deviatio
 <li>Codons with high RSCU in highly expressed genes are referred to as "optimal codons". For many species the optimal codons are selectively recognised by the abundant tRNAs, which is often taken as an indication selection pressures shaping codon usage patterns [Ikemura 1983; Wint et al 2022]. </li>
 
 ## Amino Acid Frequency:
+
 - If a particular amino acid is in some way adaptive, then it should occur more frequently than expected by chance.
 - This can easily be tested by calculating the expected frequencies of amino acids and comparing to observed. The codons and observed frequencies of particular amino acids are given in the table.
 - The frequencies of DNA bases in nature are 22.0% uracil, 30.3% adenine, 21.7% cytosine, and 26.1% guanine. The expected frequency of a particular codon can then be calculated by multiplying the frequencies of each DNA base comprising the codon. The expected frequency of the amino acid can then be calculated by adding the frequencies of each codon that codes for that amino acid.
