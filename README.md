@@ -1,5 +1,9 @@
 # Python tools for Codon Usage Bias Analysis  
-- This repository hosts different Python3 command-line programs and new graphical user interface web app! for calculating popular codon usage and amino acid usage frequency statistics from FASTA sequence files (.fasta).
+- This repository hosts different Python3 command-line programs and new graphical user interface web app! for calculating popular codon usage frequency metrics and amino acid usage frequency statistics from FASTA sequence files (.fasta):
+	- **✅ Relative synonymous codon usage (RSCU)** - transcriptome-wide and per-gene
+ 	- **✅ Relative Codon Frequency**
+  	-  **✅ Codon usage per 1000**
+  	-  **✅Expected and Observed Amino acid usage**
 - <b> Motivation </b>: I worked with hundreds of genomes so I wrote these scripts to handle batch processing of multiple genomes/ input files and outputs a CSV formatted table that is easier to parse and amenable to statistical analysis like PCA - a task that I found tedious  because  previously published tools would output the conventional wide-form codon usage table that needed extra processing.
   	- <b> Genomics Publications that used Codon-Usage-inPython </b>:
 	  		<ul>
@@ -16,7 +20,7 @@
 - I validated Codon Usage tools  against the original and widely loved CodonW by Peden, 1995. 
   
    
-# -------Software Setup----------:
+# -- 🔧GUI Software Installation----:
 - All tools require python3 version 3.10 or higher is installed and pandas version 2.0 or higher.
 - Recommended to install python3 via anaconda which comes pre-loaded with pandas https://docs.anaconda.com/anaconda/install/index.html
 
@@ -34,7 +38,7 @@
    pip install -e .
 	```
 - <font color='green'> See </font> the ```test_data``` folder for examples of the outputs of each tool on the same input fasta file ('NB_CDS.fasta')
-# ------Run Codon Analysis Via Browser Web App (Recommended) ------
+# --🚀Run Codon Analysis Via Browser Web App (Recommended) ---
 ## 🔬 Features
 
 **📊 Comprehensive Analysis Types:**
@@ -49,22 +53,23 @@ Open your terminal and type:
 codon-usage-gui
 ```
 A web page will automatically open in your browser!
-If not, just click on the `Local URL: http://localhost:xxx` to surface the web page
+If not, just click (`Cmd+Click` or `Ctrl+Click`) on the `Local URL: http://localhost:xxx` to surface the web page
+
 <img width="401" height="89" alt="image" src="https://github.com/user-attachments/assets/2ea223eb-3200-4d13-a8cf-ed7a9dc9adf3" />
 
 <img width="1374" height="742" alt="image" src="https://github.com/user-attachments/assets/e4b2c792-468c-43b7-be75-ad8990c49024" />
 
 
-# ------How to Use Stand-alone Command-line Tool ------
+# --- Using Command-line Versions of Tools ---
 
-Here, you will use a single line of command  to run the executable binary file <b>(.pyz)</b> via the shell terminal .	
+To use these tools, just copy the executable binary files <b>(.pyz)</b> into your project folder with and then run the commands via a terminal. Below describes how to run each tool 	
 
 ### Compute_RSCU_gene :  
 - Computes relative synonymous codon usage of each 59 degenerate codons per each coding sequence (CDS) according to Sharp and Li, 1986 PMCID: PMC340524
 - `Input`:  FASTA file of N coding sequences (CDS)
 - `Output`: comma-separated table (csv) of the relative synonymous codon usage for each transcript: i.e. a matrix of N transcripts x 59 RSCU values
   ******************************************************************************************************
-<b>How to Use</b> :
+<b> 📝 How to Use</b> :
 
 1. Copy the `Compute_RSCU_gene.pyz` binary from the `Codon-Usage-in-Python/Compute_RSCU_gene` folder into your project folder containing the input FASTA file.
 2. Open a terminal window (bash, gitbash, powershell, etc) in the same working folder.</li> 
@@ -81,7 +86,7 @@ Here, you will use a single line of command  to run the executable binary file <
 - `Input`: single or multifasta file of coding sequences (CDS)
 - `Output`: a comma-separated table (.csv) file of the 59 RSCU values
   ******************************************************************************************************
-**How to Use** :
+**📝 How to Use** :
 1. Copy Compute_RSCU_tw.pyz binary from `Codon-Usage-in-Python/Compute_RSCU_tw` folder into your working folder that contains the input fasta file of CDS.
 2. Open a terminal window (bash, gitbash, powershell, etc) in the same working folder.
 3. To run the programn, type the command below in the terminal shell (be sure to replace arguments with the actual name the input and output files):
@@ -95,7 +100,7 @@ Computes the length normalized codon frequency of each 61 sense codons of a codi
             
 	    Relative Frequency of Codon_i=  (frequency of codon_i)/(total number of codons in the CDSj)
 ******************************************************************************************************
-**How to Use** :
+**📝How to Use** :
 1.  Copy the `CodonCount.pyz` file in `Codon-Usage-in-Python/CodonCount` folder into your working folder with the input fasta file(s). 
 2. Open a terminal window (bash, gitbash, powershell, etc) in the same working folder.
 3.  To run the programn, type the command below in the terminal shell (be sure to replace arguments with the actual name the input and output files):
@@ -106,6 +111,8 @@ Computes the length normalized codon frequency of each 61 sense codons of a codi
 
  ### CodonUsage_per_1000:   
  Computes codon usage per 1000 of the whole transcriptome.
+ ******************************************************************************************************
+**📝How to Use** :
 1. Copy the `CodonUsage_per_1000.pyz` file in `Codon-Usage-in-Python/CodonUsage_per_1000` folder into your working folder with the input fasta file(s).
 2. Open a terminal window (bash, gitbash, powershell, etc) in the same working folder.
 4. To run the programn, type the command below in the terminal shell (be sure to replace arguments with the actual name the input and output files):
@@ -116,9 +123,10 @@ Computes the length normalized codon frequency of each 61 sense codons of a codi
 ### fasta2csv : 
 - Converts fasta file to two-column csv table (Header | Sequence); 
 ### aa_usage :
-- Computes the Expected and Observed Amino acid usage according to methods outlined in  and https://pubmed.ncbi.nlm.nih.gov/5767777/ the https://qubeshub.org/publications/979/serve/1/3067?el=1&download=1 
+- Computes the Expected and Observed Amino acid usage according to methods outlined in  and https://pubmed.ncbi.nlm.nih.gov/5767777/ the https://qubeshub.org/publications/979/serve/1/3067?el=1&download=1
+******************************************************************************************************
+**📝How to Use** :
 - To run, download the script in your project folder and type in the terminal
-
   ``` python aa_usage.py -CDS YOUR_CDS.fasta -out OUTPUT_NAME```
   
 ### fix_fasta.py: 
