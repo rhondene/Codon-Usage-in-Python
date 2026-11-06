@@ -16,6 +16,10 @@
 		<ul>
 		    <li><a href="https://www.biorxiv.org/content/10.1101/2025.07.20.664904v2.abstract" target="_blank">Super-pangenome analysis of 3562 human and animal papillomavirus isolates illuminates their genome and pathogenicity evolution</a></li>
 			</ul>
+
+		<ul>
+		    <li><a href="https://link.springer.com/article/10.1186/s12859-026-06703-w">PELICAN: a new bacteriophage genome annotation tool</a></li>
+			</ul>
    
 - I validated Codon Usage tools  against the original and widely loved CodonW by Peden, 1995. 
   
@@ -123,7 +127,7 @@ Computes the length normalized codon frequency of each 61 sense codons of a codi
 ### fasta2csv : 
 - Converts fasta file to two-column csv table (Header | Sequence); 
 ### aa_usage :
-- Computes the Expected and Observed Amino acid usage according to methods outlined in  and https://pubmed.ncbi.nlm.nih.gov/5767777/ the https://qubeshub.org/publications/979/serve/1/3067?el=1&download=1
+- Computes the Expected and Observed Amino acid usage according to methods outlined in  https://pubmed.ncbi.nlm.nih.gov/5767777/  and  https://qubeshub.org/publications/979/serve/1/3067?el=1&download=1
 ******************************************************************************************************
 **📝How to Use** :
 - To run, download the script in your project folder and type in the terminal
